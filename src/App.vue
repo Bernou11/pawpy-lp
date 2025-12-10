@@ -1,5 +1,6 @@
 <script setup>
 import Header from './components/Header.vue'
+import Presentation from "./components/Presentation.vue";
 </script>
 
 <template>
@@ -10,6 +11,8 @@ import Header from './components/Header.vue'
   </header>
 
   <main>
-
+    <div class="content">
+      <Presentation msg="Presentation" />
+    </div>
   </main>
 </template>
