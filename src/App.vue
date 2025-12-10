@@ -4,6 +4,7 @@ import Presentation from "./components/Presentation.vue";
 import AvantApres from "@/components/AvantApres.vue";
 import Discover from "@/components/Discover.vue";
 import Avis from "@/components/Avis.vue";
+import Soutien from "@/components/Soutien.vue";
 </script>
 
 <template>
@@ -19,6 +20,7 @@ import Avis from "@/components/Avis.vue";
       <AvantApres msg="AvantApres" />
       <Discover msg="Discover" />
       <Avis msg="Avis" />
+      <Soutien msg="Soutien" />
     </div>
   </main>
 </template>
