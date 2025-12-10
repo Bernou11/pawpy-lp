@@ -2,6 +2,7 @@
 import Header from './components/Header.vue'
 import Presentation from "./components/Presentation.vue";
 import AvantApres from "@/components/AvantApres.vue";
+import Discover from "@/components/Discover.vue";
 </script>
 
 <template>
@@ -15,6 +16,7 @@ import AvantApres from "@/components/AvantApres.vue";
     <div class="content">
       <Presentation msg="Presentation" />
       <AvantApres msg="AvantApres" />
+      <Discover msg="Discover" />
     </div>
   </main>
 </template>
@@ -25,14 +27,12 @@ import AvantApres from "@/components/AvantApres.vue";
     overflow: hidden;
   }
 
-  /* ✅ GOOD - Allows scrolling */
   html, body {
     min-height: 100vh;
-    overflow-y: auto; /* or just remove overflow property */
+    overflow-y: auto;
   }
 
   #app {
     min-height: 100vh;
-    /* NOT height: 100vh */
   }
 </style>
