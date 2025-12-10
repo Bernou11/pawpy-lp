@@ -3,6 +3,7 @@ import Header from './components/Header.vue'
 import Presentation from "./components/Presentation.vue";
 import AvantApres from "@/components/AvantApres.vue";
 import Discover from "@/components/Discover.vue";
+import Avis from "@/components/Avis.vue";
 </script>
 
 <template>
@@ -17,6 +18,7 @@ import Discover from "@/components/Discover.vue";
       <Presentation msg="Presentation" />
       <AvantApres msg="AvantApres" />
       <Discover msg="Discover" />
+      <Avis msg="Avis" />
     </div>
   </main>
 </template>
