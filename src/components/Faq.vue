@@ -5,13 +5,13 @@ import minus from '@/assets/minus.svg';
 
 const faqItems = ref([
   {
-    question: "Qu'est-ce qu'Anomi?",
-    answer: "Anomi est une application qui met en relation les propriétaires de chiens avec des promeneurs certifiés et qualifiés, spécialisés dans le bien-être animal. Notre priorité est de garantir des sorties sécurisées, adaptées aus spécificités de chaque chien.",
+    question: "Qu'est-ce qu'Pawpy?",
+    answer: "Pawpy est une application qui met en relation les propriétaires de chiens avec des promeneurs certifiés et qualifiés, spécialisés dans le bien-être animal. Notre priorité est de garantir des sorties sécurisées, adaptées aus spécificités de chaque chien.",
     isOpen: false
   },
   {
     question: "Quelles infos fournir sur mon animal ?",
-    answer: "Pour utiliser Anomi, il suffit de...",
+    answer: "Pour utiliser Pawpy, il suffit de...",
     isOpen: false
   },
   {
@@ -21,7 +21,7 @@ const faqItems = ref([
   },
   {
     question: "Comment sont fixés les prix ?",
-    answer: "Oui, Anomi propose une version gratuite avec...",
+    answer: "Oui, Pawpy propose une version gratuite avec...",
     isOpen: false
   },
   {
@@ -37,7 +37,7 @@ const toggleItem = (index) => {
 </script>
 
 <template>
-  <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-12">
+  <div id="faq" class="scroll-mt-24 mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-12">
     <div class="relative max-w-4xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between mb-8 md:mb-12">
       <!-- Title -->
       <h1 class="font-bold text-2xl md:text-3xl mb-4 md:mb-0">

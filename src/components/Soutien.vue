@@ -4,7 +4,7 @@
 
 <template>
   <!-- Newsletter section with overlapping dog -->
-  <div class="relative -top-8 z-20">
+  <div id="soutien" class="scroll-mt-24 relative -top-8 z-20">
     <div class="max-w-6xl mx-auto px-4 md:px-8 py-16">
       <div class="bg-monochrome-400 rounded-lg p-6 md:p-12 flex flex-col md:flex-row items-start justify-between gap-8 md:gap-12 relative overflow-hidden md:overflow-visible">
         <!-- Left: Newsletter content -->

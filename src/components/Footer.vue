@@ -58,7 +58,7 @@ import lechieng6 from '@/assets/lechiengnumero6.svg';
         <!-- Contact -->
         <div class="flex flex-col gap-4">
           <h3 class="text-monochrome-900 font-bold mb-2">Contact</h3>
-          <a href="mailto:contact@anomi.fr" class="text-monochrome-500 hover:text-monochrome-900">Mail</a>
+          <a href="mailto:contact@Pawpy.fr" class="text-monochrome-500 hover:text-monochrome-900">Mail</a>
           <a href="#" class="text-monochrome-500 hover:text-monochrome-900">Linkedin</a>
           <a href="#" class="text-monochrome-500 hover:text-monochrome-900">Instagram</a>
           <a href="#" class="text-monochrome-500 hover:text-monochrome-900">X</a>
@@ -85,7 +85,7 @@ import lechieng6 from '@/assets/lechiengnumero6.svg';
 
       <!-- Copyright -->
       <div class="flex flex-col md:flex-row justify-between items-center text-xs text-monochrome-400 border-t border-monochrome-200 pt-8">
-        <p>© 2024 - Anomi inc. All rights reserved.</p>
+        <p>© 2024 - Pawpy inc. All rights reserved.</p>
         <div class="flex gap-4 mt-4 md:mt-0">
           <a href="#" class="hover:text-monochrome-500">Termes & Conditions</a>
           <a href="#" class="hover:text-monochrome-500">Politique de confidentialité</a>
