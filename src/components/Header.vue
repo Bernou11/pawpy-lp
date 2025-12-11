@@ -48,7 +48,7 @@ const isMobileMenuOpen = ref(false)
           </div>
         </div>
         <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-          <button class="hidden sm:block relative flex rounded-full justify-center items-center gap-2.5 px-4 py-2 bg-monochrome-900 text-monochrome-100 hover:text-monochrome-800 hover:bg-monochrome-400 text-sm font-medium">
+          <button class="hidden sm:block relative flex rounded-full justify-center items-center gap-2.5 px-4 py-2 bg-monochrome-900 text-monochrome-100 hover:text-monochrome-800 hover:bg-monochrome-400 text-sm font-medium lg:hidden">
             Suivez le mouvement !
           </button>
           <!-- Mobile CTA (Icon only or smaller) -->
