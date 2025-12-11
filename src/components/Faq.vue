@@ -47,7 +47,7 @@ const toggleItem = (index) => {
       </h1>
 
       <!-- Link -->
-      <a href="#" class="text-sm md:text-xs text-monochrome-500 hover:underline">
+      <a href="#" class="text-sm md:text-xs text-monochrome-500 hidden hover:underline">
         Poser une question
       </a>
     </div>
