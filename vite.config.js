@@ -6,13 +6,13 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 
 // https://vite.dev/config/
 export default defineConfig({
-    plugins: [
+  plugins: [
     vue(),
-    ],
-    base : '/pawpy-lp/',
-    resolve: {
+  ],
+  base: '/anomi-lp/',
+  resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
-    },
+  },
 })
