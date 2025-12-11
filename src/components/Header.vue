@@ -12,7 +12,7 @@ const isMobileMenuOpen = ref(false)
 </script>
 
 <template>
-  <nav class="relative bg-white shadow-sm z-50">
+  <nav class="fixed top-0 left-0 w-full z-50 bg-white shadow-sm">
     <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
       <div class="relative flex h-16 items-center justify-between">
         <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
@@ -34,14 +34,16 @@ const isMobileMenuOpen = ref(false)
         </div>
         <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
           <div class="flex shrink-0 items-center">
-            <img :src="logo" alt="Anomi" class="h-8 w-auto" />
+            <img :src="logo" alt="Pawpy" class="h-8 w-auto" />
           </div>
           <div class="hidden sm:ml-6 sm:block">
             <div class="flex space-x-4">
-              <a href="#" class="rounded-md px-3 py-2 text-sm font-medium text-monochrome-800 hover:bg-monochrome-400 hover:text-monochrome-800">Problème</a>
-              <a href="#" class="rounded-md px-3 py-2 text-sm font-medium text-monochrome-800 hover:bg-monochrome-400 hover:text-monochrome-800">Solution</a>
-              <a href="#" class="rounded-md px-3 py-2 text-sm font-medium text-monochrome-800 hover:bg-monochrome-400 hover:text-monochrome-800">Process</a>
-              <a href="#" class="rounded-md px-3 py-2 text-sm font-medium text-monochrome-800 hover:bg-monochrome-400 hover:text-monochrome-800">Avis</a>
+              <a href="#presentation" class="rounded-md px-3 py-2 text-sm font-medium text-monochrome-800 hover:bg-monochrome-400 hover:text-monochrome-800">Présentation</a>
+              <a href="#avant-apres" class="rounded-md px-3 py-2 text-sm font-medium text-monochrome-800 hover:bg-monochrome-400 hover:text-monochrome-800">Avant/Après</a>
+              <a href="#application" class="rounded-md px-3 py-2 text-sm font-medium text-monochrome-800 hover:bg-monochrome-400 hover:text-monochrome-800">Notre application</a>
+              <a href="#avis" class="rounded-md px-3 py-2 text-sm font-medium text-monochrome-800 hover:bg-monochrome-400 hover:text-monochrome-800">Avis</a>
+              <a href="#soutien" class="rounded-md px-3 py-2 text-sm font-medium text-monochrome-800 hover:bg-monochrome-400 hover:text-monochrome-800">Nous soutenir</a>
+              <a href="#faq" class="rounded-md px-3 py-2 text-sm font-medium text-monochrome-800 hover:bg-monochrome-400 hover:text-monochrome-800">FAQ</a>
             </div>
           </div>
         </div>
@@ -59,13 +61,22 @@ const isMobileMenuOpen = ref(false)
       </div>
     </div>
 
+    <!-- Mobile menu backdrop -->
+    <div 
+      v-if="isMobileMenuOpen" 
+      class="fixed inset-0 bg-black/5 z-40 sm:hidden"
+      @click="isMobileMenuOpen = false"
+    ></div>
+
     <!-- Mobile menu -->
-    <div v-show="isMobileMenuOpen" class="sm:hidden absolute top-16 left-0 w-full bg-white shadow-lg border-t border-gray-100">
+    <div v-show="isMobileMenuOpen" class="sm:hidden absolute top-16 left-0 w-full bg-white shadow-lg border-t border-gray-100 z-50">
       <div class="space-y-1 px-2 pt-2 pb-3">
-        <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-monochrome-800 hover:bg-monochrome-100">Problème</a>
-        <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-monochrome-800 hover:bg-monochrome-100">Solution</a>
-        <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-monochrome-800 hover:bg-monochrome-100">Process</a>
-        <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-monochrome-800 hover:bg-monochrome-100">Avis</a>
+        <a href="#presentation" class="block rounded-md px-3 py-2 text-base font-medium text-monochrome-800 hover:bg-monochrome-100" @click="isMobileMenuOpen = false">Présentation</a>
+        <a href="#avant-apres" class="block rounded-md px-3 py-2 text-base font-medium text-monochrome-800 hover:bg-monochrome-100" @click="isMobileMenuOpen = false">Avant/Après</a>
+        <a href="#application" class="block rounded-md px-3 py-2 text-base font-medium text-monochrome-800 hover:bg-monochrome-100" @click="isMobileMenuOpen = false">Notre application</a>
+        <a href="#avis" class="block rounded-md px-3 py-2 text-base font-medium text-monochrome-800 hover:bg-monochrome-100" @click="isMobileMenuOpen = false">Avis</a>
+        <a href="#soutien" class="block rounded-md px-3 py-2 text-base font-medium text-monochrome-800 hover:bg-monochrome-100" @click="isMobileMenuOpen = false">Nous soutenir</a>
+        <a href="#faq" class="block rounded-md px-3 py-2 text-base font-medium text-monochrome-800 hover:bg-monochrome-100" @click="isMobileMenuOpen = false">FAQ</a>
         <a href="#" class="block rounded-md bg-monochrome-900 px-3 py-2 text-base font-medium text-white text-center mt-4">
           Suivez le mouvement !
         </a>

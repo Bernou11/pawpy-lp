@@ -10,9 +10,9 @@ defineProps({
 </script>
 
 <template>
-  <div class="flex items-center justify-center w-full space-between">
+  <div id="avant-apres" class="scroll-mt-24 flex items-center justify-center w-full space-between">
     <h1 class="text-[37px] font-bold text-monochrome-900">
-      Votre vie avant / après Anomi :
+      Votre vie avant / après Pawpy :
     </h1>
   </div>
   <div class="flex items-center justify-center w-full">

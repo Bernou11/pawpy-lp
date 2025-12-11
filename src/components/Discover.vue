@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 bg-white py-12">
+  <div id="application" class="scroll-mt-24 mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 bg-white py-12">
     <div class="max-w-7xl mx-auto">
       <!-- Header - Centered -->
       <div class="flex justify-center items-center mb-8 relative">
@@ -135,8 +135,8 @@ const currentIndex = ref(0)
 const cards = ref([
   {
     time: '11h09',
-    appName: 'Anomi',
-    title: 'Anomi repose sur le principe de parrainage',
+    appName: 'Pawpy',
+    title: 'Pawpy repose sur le principe de parrainage',
     description: 'Consectetur adipiscing elit duis tristique sollicitudin nibh. Augue mauris augue neque gravida.',
     buttonText: 'Je m\'inscris',
     footer: 'Recherche dans l\'espace 🔍',
@@ -146,7 +146,7 @@ const cards = ref([
   },
   {
     time: '11h09',
-    appName: 'Anomi',
+    appName: 'Pawpy',
     title: 'Connectez-vous avec des personnes vérifiées',
     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt.',
     buttonText: 'Découvrir',
@@ -157,7 +157,7 @@ const cards = ref([
   },
   {
     time: '11h09',
-    appName: 'Anomi',
+    appName: 'Pawpy',
     title: 'Partagez vos moments en toute confiance',
     description: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.',
     buttonText: 'Commencer',

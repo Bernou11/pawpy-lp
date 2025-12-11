@@ -17,7 +17,7 @@ import Footer from "@/components/Footer.vue";
   </header>
 
   <main>
-    <div class="content">
+    <div class="content pt-16">
       <Presentation msg="Presentation" />
       <AvantApres msg="AvantApres" />
       <Discover msg="Discover" />
