@@ -5,8 +5,8 @@ import minus from '@/assets/minus.svg';
 
 const faqItems = ref([
   {
-    question: "Qu'est-ce qu'Anomi",
-    answer: "RoadmapHero est une plateforme collaborative conçue pour aider les équipes à créer, gérer et partager leurs feuilles de route produit avec clarté et simplicité. Elle centralise votre backlog, vos priorités et votre progression, facilitant ainsi l’alignement de tous.",
+    question: "Qu'est-ce qu'Anomi?",
+    answer: "Anomi est une application qui met en relation les propriétaires de chiens avec des promeneurs certifiés et qualifiés, spécialisés dans le bien-être animal. Notre priorité est de garantir des sorties sécurisées, adaptées aus spécificités de chaque chien.",
     isOpen: false
   },
   {
@@ -37,21 +37,21 @@ const toggleItem = (index) => {
 </script>
 
 <template>
-  <div class="mx-auto max-w-5xl px-2 sm:px-6 lg:px-8">
-    <div class="relative max-w-4xl mx-auto ml-8 h-40">
-      <!-- Top left -->
-      <h1 class="absolute top-0 left-0 font-bold text-3xl">
+  <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-12">
+    <div class="relative max-w-4xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between mb-8 md:mb-12">
+      <!-- Title -->
+      <h1 class="font-bold text-2xl md:text-3xl mb-4 md:mb-0">
         Vous avez une question ?<br>Nous avons la réponse !
       </h1>
 
-      <!-- Bottom right -->
-      <a href="#" class="absolute mt-12 right-0 text-xs text-monochrome-500 hover:underline -mr-2">
+      <!-- Link -->
+      <a href="#" class="text-sm md:text-xs text-monochrome-500 hover:underline">
         Poser une question
       </a>
     </div>
 
     <!-- FAQ Accordion Items -->
-    <div class="space-y-4 max-w-7xl mx-auto ml-6">
+    <div class="space-y-4 max-w-7xl mx-auto md:ml-6">
       <div
           v-for="(item, index) in faqItems"
           :key="index"

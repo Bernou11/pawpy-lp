@@ -1,4 +1,5 @@
 <script setup>
+import { ref } from 'vue'
 defineProps({
   msg: {
     type: String,
@@ -6,63 +7,69 @@ defineProps({
   },
 })
 import logo from '@/assets/logo.svg'
+
+const isMobileMenuOpen = ref(false)
 </script>
 
 <template>
-  <nav class="relative">
+  <nav class="relative bg-white shadow-sm z-50">
     <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
       <div class="relative flex h-16 items-center justify-between">
         <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
           <!-- Mobile menu button-->
-          <button type="button" command="--toggle" commandfor="mobile-menu" class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-white/5 hover:text-white focus:outline-2 focus:-outline-offset-1 focus:outline-indigo-500">
+          <button 
+            type="button" 
+            @click="isMobileMenuOpen = !isMobileMenuOpen"
+            class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-monochrome-500"
+          >
             <span class="absolute -inset-0.5"></span>
             <span class="sr-only">Open main menu</span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon" aria-hidden="true" class="size-6 in-aria-expanded:hidden">
-              <path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" stroke-linecap="round" stroke-linejoin="round" />
+            <svg v-if="!isMobileMenuOpen" class="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
             </svg>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon" aria-hidden="true" class="size-6 not-in-aria-expanded:hidden">
-              <path d="M6 18 18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" />
+            <svg v-else class="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
             </svg>
           </button>
         </div>
-        <div class="flex flex-1 items-center justify-between sm:items-stretch">
+        <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
           <div class="flex shrink-0 items-center">
             <img :src="logo" alt="Anomi" class="h-8 w-auto" />
           </div>
           <div class="hidden sm:ml-6 sm:block">
             <div class="flex space-x-4">
-              <a href="#" aria-current="page" class="rounded-md px-3 py-2 text-sm font-medium text-monochrome-800 hover:bg-monochrome-400 hover:text-monochrome-800">Problème</a>
+              <a href="#" class="rounded-md px-3 py-2 text-sm font-medium text-monochrome-800 hover:bg-monochrome-400 hover:text-monochrome-800">Problème</a>
               <a href="#" class="rounded-md px-3 py-2 text-sm font-medium text-monochrome-800 hover:bg-monochrome-400 hover:text-monochrome-800">Solution</a>
               <a href="#" class="rounded-md px-3 py-2 text-sm font-medium text-monochrome-800 hover:bg-monochrome-400 hover:text-monochrome-800">Process</a>
-              <a href="#" class="rounded-md px-3 py-2 text-sm font-medium text-monochrome-800 hover:bg-monochrome-400 hover:text-monochrome-800">Process</a>
+              <a href="#" class="rounded-md px-3 py-2 text-sm font-medium text-monochrome-800 hover:bg-monochrome-400 hover:text-monochrome-800">Avis</a>
             </div>
           </div>
         </div>
         <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-          <!-- Profile dropdown -->
-          <el-dropdown class="relative ml-3">
-            <button class="relative flex rounded-full justify-center items-center gap-2.5 px-4 py-2 bg-monochrome-900 text-monochrome-100 hover:text-monochrome-800 hover:bg-monochrome-400">
-              Suivez le mouvement !
-            </button>
-
-            <el-menu anchor="bottom end" popover class="w-48 origin-top-right rounded-md bg-white py-1 shadow-lg outline outline-black/5 transition transition-discrete [--anchor-gap:--spacing(2)] data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in">
-              <a href="#" class="block px-4 py-2 text-sm text-monochrome-800 focus:bg-gray-100 focus:outline-hidden">Your profile</a>
-              <a href="#" class="block px-4 py-2 text-sm text-monochrome-800 focus:bg-gray-100 focus:outline-hidden">Settings</a>
-              <a href="#" class="block px-4 py-2 text-sm text-monochrome-100 focus:bg-gray-100 focus:outline-hidden">Sign out</a>
-            </el-menu>
-          </el-dropdown>
+          <button class="hidden sm:block relative flex rounded-full justify-center items-center gap-2.5 px-4 py-2 bg-monochrome-900 text-monochrome-100 hover:text-monochrome-800 hover:bg-monochrome-400 text-sm font-medium">
+            Suivez le mouvement !
+          </button>
+          <!-- Mobile CTA (Icon only or smaller) -->
+          <button class="sm:hidden block p-2 bg-monochrome-900 text-monochrome-100 rounded-full">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+            </svg>
+          </button>
         </div>
       </div>
     </div>
 
-    <el-disclosure id="mobile-menu" hidden class="block sm:hidden">
+    <!-- Mobile menu -->
+    <div v-show="isMobileMenuOpen" class="sm:hidden absolute top-16 left-0 w-full bg-white shadow-lg border-t border-gray-100">
       <div class="space-y-1 px-2 pt-2 pb-3">
-        <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-white/5 hover:text-white" -->
-        <a href="#" aria-current="page" class="block rounded-md bg-gray-900 px-3 py-2 text-base font-medium text-white">Dashboard</a>
-        <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-white/5 hover:text-white">Team</a>
-        <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-white/5 hover:text-white">Projects</a>
-        <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-white/5 hover:text-white">Calendar</a>
+        <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-monochrome-800 hover:bg-monochrome-100">Problème</a>
+        <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-monochrome-800 hover:bg-monochrome-100">Solution</a>
+        <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-monochrome-800 hover:bg-monochrome-100">Process</a>
+        <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-monochrome-800 hover:bg-monochrome-100">Avis</a>
+        <a href="#" class="block rounded-md bg-monochrome-900 px-3 py-2 text-base font-medium text-white text-center mt-4">
+          Suivez le mouvement !
+        </a>
       </div>
-    </el-disclosure>
+    </div>
   </nav>
 </template>

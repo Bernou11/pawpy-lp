@@ -4,7 +4,7 @@
       <!-- Header - Centered -->
       <div class="flex justify-center items-center mb-8 relative">
         <h2 class="text-2xl font-bold text-monochrome-800 text-center">Découvrez notre app</h2>
-        <button class="text-sm text-gray-600 hover:text-gray-900 absolute right-0">
+        <button class="hidden md:block text-sm text-gray-600 hover:text-gray-900 absolute right-0">
           Passer ces guides
         </button>
       </div>
@@ -21,10 +21,10 @@
                 :key="index"
                 class="w-full flex-shrink-0 px-4"
             >
-              <div class="flex items-center justify-center gap-8">
+              <div class="flex flex-col md:flex-row items-center justify-center gap-8">
                 <!-- Phone Mockup -->
-                <div class="relative">
-                  <div class="w-[280px] h-[560px] bg-black rounded-[40px] p-3 shadow-2xl">
+                <div class="relative transform scale-90 md:scale-100">
+                  <div class="w-[280px] h-[560px] bg-black rounded-[40px] p-3 shadow-2xl mx-auto">
                     <div class="w-full h-full bg-white rounded-[32px] overflow-hidden relative">
                       <!-- Phone Notch -->
                       <div class="flex justify-center pt-2">
@@ -32,7 +32,7 @@
                       </div>
 
                       <!-- Phone Content -->
-                      <div class="p-4 pt-8 h-full flex flex-col">
+                      <div class="p-4 pt-8 h-full flex flex-col text-left">
                         <div class="text-xs text-gray-500 mb-2">{{ card.time }}</div>
                         <div class="text-sm font-bold mb-2">{{ card.appName }}</div>
                         <h3 class="text-lg font-bold mb-3 leading-tight">
@@ -71,7 +71,7 @@
                 </div>
 
                 <!-- Text Content -->
-                <div class="max-w-md">
+                <div class="max-w-md text-center md:text-left mt-8 md:mt-0">
                   <h3 class="text-xl font-bold mb-4">{{ card.sideTitle }}</h3>
                   <p class="text-gray-600 leading-relaxed">{{ card.sideDescription }}</p>
                   <button class="w-50 bg-black text-white py-3 px-4 rounded-full text-sm font-medium mb-8 mt-3 font-sora hover:text-monochrome-800 hover:bg-monochrome-400">
