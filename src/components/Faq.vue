@@ -5,28 +5,30 @@ import minus from '@/assets/minus.svg';
 
 const faqItems = ref([
   {
-    question: "Qu'est-ce qu'Pawpy?",
+    question: "Qu'est-ce que Pawpy?",
     answer: "Pawpy est une application qui met en relation les propriétaires de chiens avec des promeneurs certifiés et qualifiés, spécialisés dans le bien-être animal. Notre priorité est de garantir des sorties sécurisées, adaptées aus spécificités de chaque chien.",
     isOpen: false
   },
   {
     question: "Quelles infos fournir sur mon animal ?",
-    answer: "Pour utiliser Pawpy, il suffit de...",
+    answer: "Anomi vous demande quelques informations essentielles sur votre compagnon : son âge, ses habitudes, ou encore ses besoins spécifiques. Plus vous êtes précis, plus l’expérience sera personnalisée et agréable pour votre chien.",
     isOpen: false
   },
   {
     question: "Puis‑je rencontrer le sitter avant ?",
-    answer: "Les principaux avantages sont...",
+    answer: "Avant de confier votre animal, vous avez la possibilité de rencontrer le promeneur, donnez vous rendez-vous et laisser la magie opérer ",
     isOpen: false
   },
   {
     question: "Comment sont fixés les prix ?",
-    answer: "Oui, Pawpy propose une version gratuite avec...",
+    answer: "Ce sont les propriétaires eux-mêmes qui fixent le tarif qu’ils jugent juste pour la promenade de leur chien. Ils choisissent le montant en fonction de la durée souhaitée, des besoins spécifiques de leur chien.\n" +
+        "Le prix apparaît toujours clairement avant validation, sans frais cachés ni surprise. \n" +
+        "Le promeneur à également la possibilité de fixer son tarif à titre indicatif directement sur son profil.",
     isOpen: false
   },
   {
     question: "Puis‑je refuser une mission ?",
-    answer: "Vous pouvez nous contacter via...",
+    answer: "Vous pouvez refuser une promenade à tout moment tant qu’elle n’est pas confirmée, ou choisir un autre promeneur si vous préférez. Avec Anomi, vous gardez le contrôle tout en offrant à votre chien le meilleur accompagnement possible pour une promenade personnalisée.",
     isOpen: false
   }
 ]);

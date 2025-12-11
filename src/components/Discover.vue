@@ -2,8 +2,8 @@
   <div id="application" class="scroll-mt-24 mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 bg-white py-12">
     <div class="max-w-7xl mx-auto">
       <!-- Header - Centered -->
-      <div class="flex justify-center items-center mb-8 relative">
-        <h2 class="text-2xl font-bold text-monochrome-800 text-center">Découvrez notre app</h2>
+      <div class="flex items-center mb-8 relative">
+        <h2 class="text-2xl font-bold text-monochrome-800">Découvrez notre app</h2>
         <button class="hidden md:block text-sm text-gray-600 hover:text-gray-900 absolute right-0">
           Passer ces guides
         </button>
@@ -19,55 +19,12 @@
             <div
                 v-for="(card, index) in cards"
                 :key="index"
-                class="w-full flex-shrink-0 px-4"
+                class="w-full flex-shrink-0 px-4 bg-monochrome-200"
             >
               <div class="flex flex-col md:flex-row items-center justify-center gap-8">
-                <!-- Phone Mockup -->
+                <!-- Phone Mockup Image -->
                 <div class="relative transform scale-90 md:scale-100">
-                  <div class="w-[280px] h-[560px] bg-black rounded-[40px] p-3 shadow-2xl mx-auto">
-                    <div class="w-full h-full bg-white rounded-[32px] overflow-hidden relative">
-                      <!-- Phone Notch -->
-                      <div class="flex justify-center pt-2">
-                        <div class="w-32 h-6 bg-black rounded-full"></div>
-                      </div>
-
-                      <!-- Phone Content -->
-                      <div class="p-4 pt-8 h-full flex flex-col text-left">
-                        <div class="text-xs text-gray-500 mb-2">{{ card.time }}</div>
-                        <div class="text-sm font-bold mb-2">{{ card.appName }}</div>
-                        <h3 class="text-lg font-bold mb-3 leading-tight">
-                          {{ card.title }}
-                        </h3>
-                        <p class="text-xs text-gray-600 mb-6">
-                          {{ card.description }}
-                        </p>
-
-                        <!-- CTA Button -->
-                        <button class="w-full bg-black text-white py-3 px-4 rounded-full text-sm font-medium mb-8 cursor-default font-sora">
-                          {{ card.buttonText }}
-                        </button>
-
-                        <!-- Spacer to push content to bottom -->
-                        <div class="flex-grow"></div>
-
-                        <!-- Bottom Section -->
-                        <div class="pb-6">
-                          <!-- Search Bar Look -->
-                          <div class="rounded-full px-4 py-2 mb-4 flex items-center justify-center gap-2">
-                            <span class="text-xs text-gray-600">{{ card.footer }}</span>
-                          </div>
-
-                          <!-- Bottom Action Button - Single Line Text -->
-                          <button class="w-full bg-green-600 text-white py-3 px-2 rounded-full text-xs font-medium flex items-center justify-center gap-2 whitespace-nowrap overflow-hidden cursor-default font-sora">
-                            <span class="truncate">{{ card.actionText }}</span>
-                            <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                            </svg>
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                  <img :src="card.image" :alt="card.appName" class="w-[280px] h-auto mx-auto drop-shadow-2xl" />
                 </div>
 
                 <!-- Text Content -->
@@ -130,10 +87,15 @@
 <script setup>
 import { ref } from 'vue'
 
+import discover1 from '@/assets/discover1.svg'
+import discover2 from '@/assets/discover2.svg'
+import discover3 from '@/assets/discover3.svg'
+
 const currentIndex = ref(0)
 
 const cards = ref([
   {
+    image: discover1,
     time: '11h09',
     appName: 'Pawpy',
     title: 'Pawpy repose sur le principe de parrainage',
@@ -145,6 +107,7 @@ const cards = ref([
     sideDescription: 'Tous les parraineurs sont préalablement vérifiés, certifiés. Nous pouvons valideraient à des critères précis, avec transparence et dans des délais réalistes. Vous serez parrainé à coup sûr.'
   },
   {
+    image: discover2,
     time: '11h09',
     appName: 'Pawpy',
     title: 'Connectez-vous avec des personnes vérifiées',
@@ -156,6 +119,7 @@ const cards = ref([
     sideDescription: 'Votre vie privée est notre priorité. Toutes les données sont cryptées et protégées selon les normes les plus strictes.'
   },
   {
+    image: discover3,
     time: '11h09',
     appName: 'Pawpy',
     title: 'Partagez vos moments en toute confiance',
