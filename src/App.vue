@@ -6,6 +6,7 @@ import Discover from "@/components/Discover.vue";
 import Avis from "@/components/Avis.vue";
 import Soutien from "@/components/Soutien.vue";
 import Faq from "@/components/Faq.vue";
+import Footer from "@/components/Footer.vue";
 </script>
 
 <template>
@@ -25,6 +26,12 @@ import Faq from "@/components/Faq.vue";
       <Faq msg="Faq" />
     </div>
   </main>
+
+  <footer>
+    <div class="wrapper">
+      <Footer msg="Footer" />
+    </div>
+  </footer>
 </template>
 
 <style scoped>
