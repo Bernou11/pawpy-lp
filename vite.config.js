@@ -9,7 +9,7 @@ export default defineConfig({
     plugins: [
     vue(),
     ],
-    base : '/',
+    base : '/pawpy-lp/',
     resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
