@@ -74,7 +74,7 @@
                 <div class="max-w-md text-center md:text-left mt-8 md:mt-0">
                   <h3 class="text-xl font-bold mb-4">{{ card.sideTitle }}</h3>
                   <p class="text-gray-600 leading-relaxed">{{ card.sideDescription }}</p>
-                  <button class="w-50 bg-black text-white py-3 px-4 rounded-full text-sm font-medium mb-8 mt-3 font-sora hover:text-monochrome-800 hover:bg-monochrome-400">
+                  <button class="w-50 bg-black text-white py-3 px-4 rounded-full text-sm font-medium mb-8 mt-3 font-sora hover:text-monochrome-800 hover:bg-monochrome-400 hidden">
                     Je m'inscris
                   </button>
                 </div>

@@ -31,10 +31,10 @@ import rframe from '@/assets/r_frame.svg';
             Confiance, transparence, sécurité, tout est pensé pour le bien être de votre chiens.
           </p>
           <div class="flex flex-col md:flex-row items-center gap-4 justify-center md:justify-start">
-            <button class="bg-monochrome-900 text-monochrome-100 px-8 py-3 rounded-full font-medium hover:text-monochrome-800 hover:bg-monochrome-400 w-full md:w-auto">
+            <button class="hidden bg-monochrome-900 text-monochrome-100 px-8 py-3 rounded-full font-medium hover:text-monochrome-800 hover:bg-monochrome-400 w-full md:w-auto">
               Suivez le mouvement !
             </button>
-            <a href="#" class="text-monochrome-900 font-medium hover:underline mt-2 md:mt-0">
+            <a href="#" class="hidden text-monochrome-900 font-medium hover:underline mt-2 md:mt-0">
               Nous soutenir →
             </a>
           </div>
