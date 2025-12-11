@@ -29,7 +29,7 @@
           <input
               type="email"
               placeholder="exemple@gmail.com"
-              class="px-6 py-3 rounded-full bg-monochrome-200 text-white w-80 mr-52 text-center border border-monochrome-500 mt-5"
+              class="px-6 py-3 rounded-full bg-monochrome-200 w-80 mr-52 text-center border border-monochrome-500 mt-5"
           />
 
           <!-- Button below input -->

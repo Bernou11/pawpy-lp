@@ -5,6 +5,7 @@ import AvantApres from "@/components/AvantApres.vue";
 import Discover from "@/components/Discover.vue";
 import Avis from "@/components/Avis.vue";
 import Soutien from "@/components/Soutien.vue";
+import Faq from "@/components/Faq.vue";
 </script>
 
 <template>
@@ -21,6 +22,7 @@ import Soutien from "@/components/Soutien.vue";
       <Discover msg="Discover" />
       <Avis msg="Avis" />
       <Soutien msg="Soutien" />
+      <Faq msg="Faq" />
     </div>
   </main>
 </template>
