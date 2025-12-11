@@ -39,7 +39,7 @@ import lechieng6 from '@/assets/lechiengnumero6.svg';
       <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-16">
         <!-- Navigation -->
         <div class="flex flex-col gap-4">
-          <h3 class="text-monochrome-900 font-bold mb-2">Roadmap</h3>
+          <h3 class="text-monochrome-900 font-bold mb-2">Navigation</h3>
           <a href="#" class="text-monochrome-500 hover:text-monochrome-900">Solution</a>
           <a href="#" class="text-monochrome-500 hover:text-monochrome-900">Future</a>
           <a href="#" class="text-monochrome-500 hover:text-monochrome-900">Tarifs</a>
