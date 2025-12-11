@@ -9,7 +9,7 @@ import lechieng6 from '@/assets/lechiengnumero6.svg';
 
 <template>
   <div class="w-full">
-    <div class="relative mt-8 h-[320px] md:h-[400px] w-full overflow-hidden">
+    <div class="hidden md:block relative mt-8 h-[320px] md:h-[400px] w-full overflow-hidden">
       <!-- Image 1 - Far Left (5% margin) -->
       <img :src="lechieng" alt="Lechieng" class="absolute top-4 left-[5%] w-[25%] h-auto shadow-lg rotate-[-6deg] z-10" />
 
@@ -26,12 +26,12 @@ import lechieng6 from '@/assets/lechiengnumero6.svg';
       <img :src="lechieng5" alt="Lechieng" class="absolute top-6 left-[61%] w-[25%] h-auto shadow-lg rotate-[-4deg] z-50" />
 
       <!-- Image 6 - Far Right -->
-      <img :src="lechieng6" alt="Lechieng" class="absolute top-14 left-[75%] w-[25%] h-auto shadow-lg rotate-[3deg] z-60" />
+      <img :src="lechieng6" alt="Lechieng" class="absolute top-14 left-[75%] w-[25%] h-auto shadow-lg rotate-[3deg] z-50" />
     </div>
 
     <div class="max-w-7xl mx-auto px-6 pt-12 pb-8">
       <!-- Title -->
-      <h2 class="text-3xl md:text-5xl font-bold text-center text-monochrome-900 mb-16">
+      <h2 class="text-3xl md:text-5xl font-bold text-left md:text-center text-monochrome-900 mb-16">
         Transformez vos roadmaps<br />en succès !
       </h2>
 

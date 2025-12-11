@@ -1,9 +1,17 @@
 <template>
   <div class="space-y-4">
-    <div v-for="item in features" :key="item.id" class="flex items-center justify-center gap-6">
-      <!-- Left text - grayed out when enabled -->
+    <div v-for="item in features" :key="item.id" class="flex items-center justify-center gap-4 md:gap-6">
+      <!-- Mobile: Dynamic Text -->
       <span
-          class="font-medium text-right w-80 transition-colors whitespace-nowrap"
+          class="md:hidden font-medium text-right w-64 transition-all duration-300 whitespace-nowrap text-sm sm:text-base"
+          :class="item.enabled ? 'text-monochrome-900 font-bold' : 'text-monochrome-900'"
+      >
+        {{ item.enabled ? item.after : item.before }}
+      </span>
+
+      <!-- Desktop: Left Text -->
+      <span
+          class="hidden md:block font-medium text-right w-80 transition-colors whitespace-nowrap"
           :class="item.enabled ? 'text-monochrome-400' : 'text-monochrome-900'"
       >
         {{ item.before }}
@@ -14,9 +22,9 @@
         <span class="toggle-slider"></span>
       </label>
 
-      <!-- Right text - highlighted when enabled -->
+      <!-- Desktop: Right Text -->
       <span
-          class="text-left w-80 transition-colors whitespace-nowrap"
+          class="hidden md:block text-left w-80 transition-colors whitespace-nowrap"
           :class="item.enabled ? 'text-monochrome-900 font-semibold' : 'text-monochrome-400'"
       >
         {{ item.after }}
