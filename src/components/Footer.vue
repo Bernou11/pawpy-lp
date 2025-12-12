@@ -31,8 +31,8 @@ import lechieng6 from '@/assets/lechiengnumero6.svg';
 
     <div class="max-w-7xl mx-auto px-6 pt-12 pb-8">
       <!-- Title -->
-      <h2 class="text-3xl md:text-5xl font-bold text-left md:text-center text-monochrome-900 mb-16">
-        Transformez vos roadmaps<br />en succès !
+      <h2 class="text-3xl md:text-5xl font-bold text-left md:text-monochrome-900 mb-16">
+        La balade sans compromis.
       </h2>
 
       <!-- Content Grid -->
