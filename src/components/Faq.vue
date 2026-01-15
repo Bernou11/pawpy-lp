@@ -11,7 +11,7 @@ const faqItems = ref([
   },
   {
     question: "Quelles infos fournir sur mon animal ?",
-    answer: "Anomi vous demande quelques informations essentielles sur votre compagnon : son âge, ses habitudes, ou encore ses besoins spécifiques. Plus vous êtes précis, plus l’expérience sera personnalisée et agréable pour votre chien.",
+    answer: "Pawpy vous demande quelques informations essentielles sur votre compagnon : son âge, ses habitudes, ou encore ses besoins spécifiques. Plus vous êtes précis, plus l’expérience sera personnalisée et agréable pour votre chien.",
     isOpen: false
   },
   {

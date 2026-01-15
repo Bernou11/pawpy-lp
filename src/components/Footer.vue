@@ -47,7 +47,7 @@ import lechieng6 from '@/assets/lechiengnumero6.svg';
 
         <!-- Legal -->
         <div class="flex flex-col gap-4">
-          <h3 class="text-monochrome-900 font-bold mb-2">Pied de page</h3>
+          <h3 class="text-monochrome-900 font-bold mb-2">Légal</h3>
           <a href="#" class="text-monochrome-500 hover:text-monochrome-900">Mentions légales</a>
           <a href="#" class="text-monochrome-500 hover:text-monochrome-900">Politique de confidentialité</a>
           <a href="#" class="text-monochrome-500 hover:text-monochrome-900">C.G.U</a>
@@ -59,10 +59,10 @@ import lechieng6 from '@/assets/lechiengnumero6.svg';
         <div class="flex flex-col gap-4">
           <h3 class="text-monochrome-900 font-bold mb-2">Contact</h3>
           <a href="mailto:contact@Pawpy.fr" class="text-monochrome-500 hover:text-monochrome-900">Mail</a>
-          <a href="#" class="text-monochrome-500 hover:text-monochrome-900">Linkedin</a>
-          <a href="#" class="text-monochrome-500 hover:text-monochrome-900">Instagram</a>
-          <a href="#" class="text-monochrome-500 hover:text-monochrome-900">X</a>
-          <a href="#" class="text-monochrome-500 hover:text-monochrome-900">Youtube</a>
+          <a href="#" class="hidden text-monochrome-500 hover:text-monochrome-900">Linkedin</a>
+          <a href="#" class="hidden text-monochrome-500 hover:text-monochrome-900">Instagram</a>
+          <a href="#" class="hidden text-monochrome-500 hover:text-monochrome-900">X</a>
+          <a href="#" class="hidden text-monochrome-500 hover:text-monochrome-900">Youtube</a>
         </div>
 
         <!-- Newsletter -->
@@ -72,7 +72,7 @@ import lechieng6 from '@/assets/lechiengnumero6.svg';
             <input 
               type="email" 
               placeholder="Votre email" 
-              class="w-full px-4 py-2 rounded-full border border-monochrome-200 focus:outline-none focus:border-monochrome-500"
+              class="w-full px-4 py-2 rounded-full border border-monochrome-500 focus:outline-none focus:border-monochrome-500"
             />
             <button class="absolute right-2 top-1/2 -translate-y-1/2 p-1 bg-monochrome-900 rounded-full">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">

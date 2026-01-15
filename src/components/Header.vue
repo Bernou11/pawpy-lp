@@ -36,7 +36,7 @@ const isMobileMenuOpen = ref(false)
           <div class="flex shrink-0 items-center">
             <img :src="logo" alt="Pawpy" class="h-8 w-auto" />
           </div>
-          <div class="hidden sm:ml-6 sm:block">
+          <div class="hidden sm:ml-auto sm:block">
             <div class="flex space-x-4">
               <a href="#presentation" class="rounded-md px-3 py-2 text-sm font-medium text-monochrome-800 hover:bg-monochrome-400 hover:text-monochrome-800">Présentation</a>
               <a href="#avant-apres" class="rounded-md px-3 py-2 text-sm font-medium text-monochrome-800 hover:bg-monochrome-400 hover:text-monochrome-800">Avant/Après</a>
@@ -48,7 +48,7 @@ const isMobileMenuOpen = ref(false)
           </div>
         </div>
         <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-          <button class="hidden sm:block relative flex rounded-full justify-center items-center gap-2.5 px-4 py-2 bg-monochrome-900 text-monochrome-100 hover:text-monochrome-800 hover:bg-monochrome-400 text-sm font-medium lg:hidden">
+          <button class="hidden sm:block relative flex rounded-full justify-center items-center gap-2.5 px-4 py-2 bg-monochrome-900 text-monochrome-100 hover:text-monochrome-800 hover:bg-monochrome-400 text-sm font-medium">
             Suivez le mouvement !
           </button>
           <!-- Mobile CTA (Icon only or smaller) -->
