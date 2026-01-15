@@ -5,16 +5,21 @@
       <div class="flex items-center mb-8 relative">
         <h2 class="text-2xl font-bold text-monochrome-800">Découvrez notre app</h2>
         <button class="hidden md:block text-sm text-gray-600 hover:text-gray-900 absolute right-0">
-          Passer ces guides
+          Poser une question
         </button>
       </div>
 
       <!-- Cards Container -->
-      <div class="relative">
-        <div class="overflow-hidden">
+      <div class="relative" ref="carouselRef">
+        <div 
+          class="overflow-hidden"
+          @touchstart="handleTouchStart"
+          @touchmove="handleTouchMove"
+          @touchend="handleTouchEnd"
+        >
           <div
               class="flex transition-transform duration-500 ease-in-out"
-              :style="{ transform: `translateX(-${currentIndex * 100}%)` }"
+              :style="{ transform: `translateX(calc(-${currentIndex * 100}% - ${bounceOffset}%))` }"
           >
             <div
                 v-for="(card, index) in cards"
@@ -31,7 +36,7 @@
                 <div class="max-w-md text-center md:text-left mt-8 md:mt-0">
                   <h3 class="text-xl font-bold mb-4">{{ card.sideTitle }}</h3>
                   <p class="text-gray-600 leading-relaxed">{{ card.sideDescription }}</p>
-                  <button class="w-50 bg-black text-white py-3 px-4 rounded-full text-sm font-medium mb-8 mt-3 font-sora hover:text-monochrome-800 hover:bg-monochrome-400 hidden">
+                  <button class="w-50 bg-black text-white py-3 px-4 rounded-full text-sm font-medium mb-8 mt-3 font-sora hover:text-monochrome-800 hover:bg-monochrome-400">
                     Je m'inscris
                   </button>
                 </div>
@@ -52,7 +57,7 @@
         </div>
 
         <!-- Arrow Navigation -->
-        <div class="flex justify-end gap-2 mt-6">
+        <div class="hidden md:flex justify-end gap-2 mt-6">
           <button
               @click="prevSlide"
               :disabled="currentIndex === 0"
@@ -85,13 +90,18 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 
 import discover1 from '@/assets/discover1.svg'
 import discover2 from '@/assets/discover2.svg'
 import discover3 from '@/assets/discover3.svg'
 
 const currentIndex = ref(0)
+const touchStartX = ref(0)
+const touchEndX = ref(0)
+const carouselRef = ref(null)
+const bounceOffset = ref(0)
+const hasBounced = ref(false)
 
 const cards = ref([
   {
@@ -147,4 +157,44 @@ const prevSlide = () => {
 const goToSlide = (index) => {
   currentIndex.value = index
 }
+
+const handleTouchStart = (e) => {
+  touchStartX.value = e.changedTouches[0].clientX
+  touchEndX.value = e.changedTouches[0].clientX
+}
+
+const handleTouchMove = (e) => {
+  touchEndX.value = e.changedTouches[0].clientX
+}
+
+const handleTouchEnd = () => {
+  if (touchStartX.value - touchEndX.value > 50) {
+    nextSlide()
+  }
+
+  if (touchStartX.value - touchEndX.value < -50) {
+    prevSlide()
+  }
+}
+
+onMounted(() => {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting && !hasBounced.value) {
+        hasBounced.value = true
+        setTimeout(() => {
+          bounceOffset.value = 10
+          setTimeout(() => {
+            bounceOffset.value = 0
+          }, 500)
+        }, 500)
+      }
+    })
+  }, { threshold: 0.5 })
+
+  if (carouselRef.value) {
+    observer.observe(carouselRef.value)
+  }
+})
+
 </script>
