@@ -1,5 +1,53 @@
 <script setup>
-  import dogWithHat from '@/assets/dog_hat.svg';
+import { ref } from 'vue';
+import dogWithHat from '@/assets/dog_hat.svg';
+
+// Form state
+const email = ref('');
+const isSubmitting = ref(false);
+const showSuccess = ref(false);
+const showError = ref(false);
+
+// Handle form submission
+const handleSubmit = async (event) => {
+  event.preventDefault();
+
+  isSubmitting.value = true;
+  showSuccess.value = false;
+  showError.value = false;
+
+  try {
+    const formData = new FormData();
+    formData.append('email', email.value);
+
+    const response = await fetch('https://stats.sender.net/forms/dwpwKJ/subscribe', {
+      method: 'POST',
+      body: formData,
+      mode: 'no-cors' // Sender might require this
+    });
+
+    // Since we're using no-cors, we can't check response status
+    // So we assume success if no error was thrown
+    showSuccess.value = true;
+    email.value = ''; // Clear the input
+
+    // Hide success message after 5 seconds
+    setTimeout(() => {
+      showSuccess.value = false;
+    }, 5000);
+
+  } catch (error) {
+    console.error('Subscription error:', error);
+    showError.value = true;
+
+    // Hide error message after 5 seconds
+    setTimeout(() => {
+      showError.value = false;
+    }, 5000);
+  } finally {
+    isSubmitting.value = false;
+  }
+};
 </script>
 
 <template>
@@ -17,7 +65,7 @@
           </p>
 
           <p class="text-sm text-gray-600 mb-6 md:mb-0">
-            Il vous sera même proposz de <strong>faire partie de la version béta</strong>
+            Il vous sera même proposé de <strong>faire partie de la version béta</strong>
             en cours de développement
           </p>
         </div>
@@ -25,42 +73,68 @@
         <!-- Right: Input + Button + Dog -->
         <div class="flex flex-col items-center md:items-end gap-4 relative w-full md:w-auto z-20">
 
-          <!-- Email input group -->
-          <div class="relative w-full md:w-80 md:mr-52 mt-0 md:mt-5">
-            <p class="text-sm font-medium text-monochrome-900 mb-2 text-center">
-              Inscrivez-vous à notre newsletter
-            </p>
+          <!-- Newsletter Form -->
+          <form
+              @submit="handleSubmit"
+              class="w-full md:w-80 md:mr-52"
+          >
             <div class="relative w-full">
               <input
+                  v-model="email"
                   type="email"
+                  name="email"
                   placeholder="exemple@gmail.com"
-                  class="px-6 py-3 rounded-full bg-monochrome-200 w-full text-center border border-monochrome-500 pr-12 focus:outline-none focus:ring-2 focus:ring-monochrome-500 placeholder-gray-500"
+                  required
+                  :disabled="isSubmitting"
+                  class="px-6 py-3 rounded-full bg-monochrome-200 w-full text-center border border-monochrome-500 pr-12 focus:outline-none focus:ring-2 focus:ring-monochrome-500 placeholder-gray-500 disabled:opacity-50 disabled:cursor-not-allowed"
               />
-              <!-- Submit Button (Inside Input) -->
-              <button class="absolute top-1/2 -translate-y-1/2 right-2 p-2 bg-monochrome-900 text-monochrome-100 rounded-full hover:bg-monochrome-400 hover:text-monochrome-900 transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+              <button
+                  type="submit"
+                  :disabled="isSubmitting"
+                  class="absolute top-1/2 -translate-y-1/2 right-2 p-2 bg-monochrome-900 text-monochrome-100 rounded-full hover:bg-monochrome-400 hover:text-monochrome-900 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <!-- Loading spinner -->
+                <svg v-if="isSubmitting" class="animate-spin w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                <!-- Arrow icon -->
+                <svg v-else xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
                 </svg>
               </button>
             </div>
-          </div>
+
+            <!-- Success Message -->
+            <transition name="fade">
+              <div v-if="showSuccess" class="mt-3 p-3 bg-green-100 border border-green-400 text-green-700 rounded-lg text-sm text-center">
+                ✓ Merci ! Vérifiez votre email pour confirmer votre inscription.
+              </div>
+            </transition>
+
+            <!-- Error Message -->
+            <transition name="fade">
+              <div v-if="showError" class="mt-3 p-3 bg-red-100 border border-red-400 text-red-700 rounded-lg text-sm text-center">
+                ✗ Une erreur s'est produite. Veuillez réessayer.
+              </div>
+            </transition>
+          </form>
 
           <!-- Questionnaire Button -->
-          <button class="px-6 py-2 border-2 border-monochrome-800 text-monochrome-100 bg-monochrome-900 rounded-full text-sm font-medium whitespace-nowrap w-full md:w-80 md:mr-52 hover:bg-monochrome-400 hover:text-monochrome-800 transition-colors">
-            <a href="https://clementsainthilaire.notion.site/2c3299f1bb4d804db2acdeaaddd997c1?pvs=105"
-               target="_blank"
-               rel="noopener noreferrer">
-              Répondre au questionnaire
-            </a>
-          </button>
+          <a href="https://clementsainthilaire.notion.site/2c3299f1bb4d804db2acdeaaddd997c1?pvs=105"
+             target="_blank"
+             rel="noopener noreferrer"
+             class="px-6 py-2 border-2 border-monochrome-800 text-monochrome-100 bg-monochrome-900 rounded-full text-sm font-medium whitespace-nowrap w-full md:w-80 md:mr-52 hover:bg-monochrome-400 hover:text-monochrome-800 transition-colors text-center block">
+            Répondre au questionnaire
+          </a>
 
           <!-- Dog image overlapping from top -->
           <img :src="dogWithHat"
                alt="Dog with yellow hat"
                class="hidden md:block absolute -top-[165px] -right-8 w-60 h-96 z-[-1]" />
-          
+
           <!-- Mobile Dog Image (positioned differently) -->
-           <img :src="dogWithHat"
+          <img :src="dogWithHat"
                alt="Dog with yellow hat"
                class="md:hidden w-40 h-auto mt-4 mx-auto" />
         </div>
@@ -68,3 +142,14 @@
     </div>
   </div>
 </template>
+
+<style scoped>
+/* Fade transition for messages */
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.fade-enter-from, .fade-leave-to {
+  opacity: 0;
+}
+</style>
