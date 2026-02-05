@@ -8,7 +8,7 @@ import lechieng6 from '@/assets/lechiengnumero6.svg';
 </script>
 
 <template>
-  <div class="w-full">
+  <div class="w-full mt-[128px]">
     <div class="hidden md:block relative mt-8 h-[320px] md:h-[400px] w-full overflow-hidden">
       <!-- Image 1 - Far Left (5% margin) -->
       <img :src="lechieng" alt="Lechieng" class="absolute top-4 left-[5%] w-[25%] h-auto shadow-lg rotate-[-6deg] z-10" />

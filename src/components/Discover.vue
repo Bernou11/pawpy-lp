@@ -1,44 +1,47 @@
 <template>
-  <div id="application" class="scroll-mt-24 mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 bg-white py-12">
+  <div id="application" class="scroll-mt-24 mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 bg-white py-12 mt-[128px]">
     <div class="max-w-7xl mx-auto">
       <!-- Header - Centered -->
-      <div class="flex items-center mb-8 relative">
-        <h2 class="text-2xl font-bold text-monochrome-800">Découvrez notre app</h2>
-        <button class="hidden md:block text-sm text-gray-600 hover:text-gray-900 absolute right-0">
+      <div class="flex items-center mb-8 relative px-2 md:px-8">
+        <h2 class="text-[37px] font-bold text-monochrome-800">Découvrez notre app</h2>
+        <button class="hidden md:block text-sm text-gray-600 hover:text-gray-900 absolute right-8">
           Poser une question
         </button>
       </div>
 
       <!-- Cards Container -->
-      <div class="relative" ref="carouselRef">
-        <div 
-          class="overflow-hidden"
-          @touchstart="handleTouchStart"
-          @touchmove="handleTouchMove"
-          @touchend="handleTouchEnd"
+      <div class="relative py-8 md:py-16" ref="carouselRef">
+        <div
+            class="overflow-x-auto overflow-y-hidden snap-x snap-mandatory scrollbar-hide md:overflow-hidden"
+            ref="scrollContainer"
+            @scroll="handleScroll"
         >
           <div
-              class="flex transition-transform duration-500 ease-in-out"
-              :style="{ transform: `translateX(calc(-${currentIndex * 100}% - ${bounceOffset}%))` }"
+              class="flex md:transition-transform md:duration-500 md:ease-in-out"
+              :style="{ transform: isMobile ? 'none' : `translateX(-${currentIndex * 100}%)` }"
           >
             <div
                 v-for="(card, index) in cards"
                 :key="index"
-                class="w-full flex-shrink-0 px-4 bg-monochrome-200"
+                class="w-full flex-shrink-0 px-2 md:px-8 snap-center"
             >
-              <div class="flex flex-col md:flex-row items-center justify-center gap-8">
+              <div class="bg-monochrome-200 rounded-3xl shadow-lg p-8 md:p-12 flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12 overflow-visible md:min-h-[400px] md:max-h-[600px]">
                 <!-- Phone Mockup Image -->
-                <div class="relative transform scale-90 md:scale-100">
-                  <img :src="card.image" :alt="card.appName" class="w-[280px] h-auto mx-auto drop-shadow-2xl" />
+                <div class="relative transform scale-90 md:scale-100 flex-shrink-0">
+                  <img :src="card.image" :alt="card.appName" class="w-[240px] md:w-[280px] h-auto mx-auto drop-shadow-2xl" />
                 </div>
 
                 <!-- Text Content -->
-                <div class="max-w-md text-center md:text-left mt-8 md:mt-0">
-                  <h3 class="text-xl font-bold mb-4">{{ card.sideTitle }}</h3>
-                  <p class="text-gray-600 leading-relaxed">{{ card.sideDescription }}</p>
-                  <button class="w-50 bg-black text-white py-3 px-4 rounded-full text-sm font-medium mb-8 mt-3 font-sora hover:text-monochrome-800 hover:bg-monochrome-400">
-                    Je m'inscris
-                  </button>
+                <div class="max-w-md md:text-left flex-1">
+                  <h3 class="text-[24px] md:text-[28px] font-bold mb-4 md:mb-6">{{ card.sideTitle }}</h3>
+                  <p class="text-gray-600 leading-relaxed text-[15px] md:text-[16px] mb-6 md:mb-8">{{ card.sideDescription }}</p>
+                  <div class="flex justify-center md:justify-start">
+                    <a href="#soutien">
+                      <button class="bg-black text-white py-3 px-8 rounded-full text-sm font-medium font-sora hover:bg-gray-800 transition-colors">
+                        Je m'inscris
+                      </button>
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
@@ -52,12 +55,12 @@
               :key="`dot-${index}`"
               @click="goToSlide(index)"
               class="w-2 h-2 rounded-full transition-all duration-300"
-              :class="currentIndex === index ? 'bg-gray-800 w-6' : 'bg-gray-300'"
+              :class="currentIndex === index ? 'bg-gray-800 w-8' : 'bg-gray-300'"
           ></button>
         </div>
 
         <!-- Arrow Navigation -->
-        <div class="hidden md:flex justify-end gap-2 mt-6">
+        <div class="hidden md:flex justify-end gap-2 mt-6 px-8">
           <button
               @click="prevSlide"
               :disabled="currentIndex === 0"
@@ -90,18 +93,18 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 
 import discover1 from '@/assets/discover1.svg'
 import discover2 from '@/assets/discover2.svg'
 import discover3 from '@/assets/discover3.svg'
 
 const currentIndex = ref(0)
-const touchStartX = ref(0)
-const touchEndX = ref(0)
 const carouselRef = ref(null)
+const scrollContainer = ref(null)
 const bounceOffset = ref(0)
 const hasBounced = ref(false)
+const isMobile = ref(false)
 
 const cards = ref([
   {
@@ -142,42 +145,62 @@ const cards = ref([
   }
 ])
 
+const checkMobile = () => {
+  isMobile.value = window.innerWidth < 768
+}
+
 const nextSlide = () => {
   if (currentIndex.value < cards.value.length - 1) {
     currentIndex.value++
+    if (isMobile.value && scrollContainer.value) {
+      const cardWidth = scrollContainer.value.offsetWidth
+      scrollContainer.value.scrollTo({
+        left: cardWidth * currentIndex.value,
+        behavior: 'smooth'
+      })
+    }
   }
 }
 
 const prevSlide = () => {
   if (currentIndex.value > 0) {
     currentIndex.value--
+    if (isMobile.value && scrollContainer.value) {
+      const cardWidth = scrollContainer.value.offsetWidth
+      scrollContainer.value.scrollTo({
+        left: cardWidth * currentIndex.value,
+        behavior: 'smooth'
+      })
+    }
   }
 }
 
 const goToSlide = (index) => {
   currentIndex.value = index
-}
-
-const handleTouchStart = (e) => {
-  touchStartX.value = e.changedTouches[0].clientX
-  touchEndX.value = e.changedTouches[0].clientX
-}
-
-const handleTouchMove = (e) => {
-  touchEndX.value = e.changedTouches[0].clientX
-}
-
-const handleTouchEnd = () => {
-  if (touchStartX.value - touchEndX.value > 50) {
-    nextSlide()
+  if (isMobile.value && scrollContainer.value) {
+    const cardWidth = scrollContainer.value.offsetWidth
+    scrollContainer.value.scrollTo({
+      left: cardWidth * index,
+      behavior: 'smooth'
+    })
   }
+}
 
-  if (touchStartX.value - touchEndX.value < -50) {
-    prevSlide()
+const handleScroll = () => {
+  if (isMobile.value && scrollContainer.value) {
+    const scrollLeft = scrollContainer.value.scrollLeft
+    const cardWidth = scrollContainer.value.offsetWidth
+    const newIndex = Math.round(scrollLeft / cardWidth)
+    if (newIndex !== currentIndex.value) {
+      currentIndex.value = newIndex
+    }
   }
 }
 
 onMounted(() => {
+  checkMobile()
+  window.addEventListener('resize', checkMobile)
+
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting && !hasBounced.value) {
@@ -197,4 +220,19 @@ onMounted(() => {
   }
 })
 
+onUnmounted(() => {
+  window.removeEventListener('resize', checkMobile)
+})
+
 </script>
+
+<style scoped>
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+</style>

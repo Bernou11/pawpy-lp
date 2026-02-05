@@ -39,7 +39,7 @@ const toggleItem = (index) => {
 </script>
 
 <template>
-  <div id="faq" class="scroll-mt-24 mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-12">
+  <div id="faq" class="scroll-mt-24 mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-12 mt-[128px]">
     <div class="relative max-w-4xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between mb-8 md:mb-12">
       <!-- Title -->
       <h1 class="font-bold text-2xl md:text-3xl mb-4 md:mb-0">
@@ -61,7 +61,7 @@ const toggleItem = (index) => {
       >
         <!-- Question Header -->
         <div
-            class="flex flex-row relative h-8 bg-monochrome-200 cursor-pointer hover:bg-monochrome-300 transition-colors rounded"
+            class="flex flex-row relative h-8 bg-monochrome-200 cursor-pointer hover:bg-monochrome-300 transition-colors rounded pt-1 pb-8"
             @click="toggleItem(index)"
         >
           <h2 class="font-bold text-base mt-1 ml-4">{{ item.question }}</h2>
