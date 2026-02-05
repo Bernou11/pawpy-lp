@@ -10,7 +10,7 @@
       </div>
 
       <!-- Cards Container -->
-      <div class="relative py-8 md:py-16" ref="carouselRef">
+      <div class="relative py-8 rounded-full md:py-16" ref="carouselRef">
         <div
             class="overflow-x-auto overflow-y-hidden snap-x snap-mandatory scrollbar-hide md:overflow-hidden"
             ref="scrollContainer"
@@ -25,7 +25,7 @@
                 :key="index"
                 class="w-full flex-shrink-0 px-2 md:px-8 snap-center"
             >
-              <div class="bg-monochrome-200 rounded-3xl shadow-lg p-8 md:p-12 flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12 overflow-visible md:min-h-[400px] md:max-h-[600px]">
+              <div class="bg-monochrome-200 rounded-3xl p-8 md:p-12 flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12 overflow-visible md:min-h-[400px] md:max-h-[600px]">
                 <!-- Phone Mockup Image -->
                 <div class="relative transform scale-90 md:scale-100 flex-shrink-0">
                   <img :src="card.image" :alt="card.appName" class="w-[240px] md:w-[280px] h-auto mx-auto drop-shadow-2xl" />
