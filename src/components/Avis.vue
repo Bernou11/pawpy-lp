@@ -79,6 +79,25 @@ onMounted(() => {
           <p class="testimonial-text">{{ testimonial.text }}</p>
         </div>
       </div>
+      <div class="carousel-track carousel-track-left mt-6">
+        <div v-for="testimonial in testimonials.slice(12, 18)"
+             :key="`row3-${testimonial.id}`"
+             class="testimonial-card">
+          <img :src="testimonial.image"
+               :alt="`Dog ${testimonial.id}`"
+               class="testimonial-image" />
+          <p class="testimonial-text">{{ testimonial.text }}</p>
+        </div>
+        <!-- Duplicate for infinite scroll -->
+        <div v-for="testimonial in testimonials.slice(12, 18)"
+             :key="`row3-dup-${testimonial.id}`"
+             class="testimonial-card">
+          <img :src="testimonial.image"
+               :alt="`Dog ${testimonial.id}`"
+               class="testimonial-image" />
+          <p class="testimonial-text">{{ testimonial.text }}</p>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -102,10 +121,6 @@ onMounted(() => {
   animation: scrollRight 40s linear infinite;
 }
 
-.carousel-track:hover {
-  animation-play-state: paused;
-}
-
 .testimonial-card {
   flex-shrink: 0;
   width: 300px;
@@ -115,7 +130,6 @@ onMounted(() => {
   background: white;
   padding: 16px;
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .testimonial-image {
