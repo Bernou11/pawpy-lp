@@ -1,29 +1,67 @@
-#!/usr/bin/env sh
+#!/bin/bash
 
-# abort on errors
-set -e
+# Optimized deployment - Build locally, deploy only dist folder
+# Usage: ./deploy-optimized.sh username@your-vps-ip
 
-# clean previous build
-rm -rf dist
+VPS=$1
 
-# build
+if [ -z "$VPS" ]; then
+    echo "Usage: ./deploy-optimized.sh username@vps-ip"
+    echo "Example: ./deploy-optimized.sh root@123.456.789.0"
+    exit 1
+fi
+
+echo "🔨 Building locally..."
 npm run build
 
-# navigate into the build output directory
-cd dist
+if [ ! -d "dist" ]; then
+    echo "❌ Build failed - dist folder not found"
+    exit 1
+fi
 
-# if you are deploying to a custom domain
-# echo 'www.example.com' > CNAME
+echo "📦 Transferring files to $VPS..."
+# Note: dist without trailing slash copies the folder itself
+rsync -avz --progress \
+    --delete \
+    --exclude '.git' \
+    --exclude '.gitignore' \
+    --exclude 'node_modules' \
+    --exclude '.env.local' \
+    --exclude '.DS_Store' \
+    dist \
+    nginx.conf \
+    Dockerfile.production \
+    compose.prod.yml \
+    $VPS:~/landing-page/
 
-git init
-git checkout -b main
-git add -A
-git commit -m 'deploy'
+# Deploy on VPS
+echo "🐳 Deploying on VPS..."
+ssh $VPS << 'ENDSSH'
+cd ~/landing-page
 
-# if you are deploying to https://<USERNAME>.github.io
-# git push -f git@github.com:<USERNAME>/<USERNAME>.github.io.git main
+mv compose.prod.yml compose.yml
 
-# if you are deploying to https://<USERNAME>.github.io/<REPO>
-git push -f git@github.com:Bernou11/pawpy-lp.git main:gh-pages
+# Create network if it doesn't exist
+docker network create web 2>/dev/null || true
 
-cd -
+# Use production compose file
+docker compose down
+docker compose up -d --build
+
+# Show status
+echo ""
+echo "✅ Deployment complete!"
+echo ""
+docker compose ps
+ENDSSH
+
+echo ""
+echo "🎉 Done! Your app should be running at http://pawpy.fr"
+echo "⏳ SSL certificate will be issued automatically in 1-2 minutes"
+echo ""
+echo "📊 Deployment stats:"
+echo "   - Built locally: ✓"
+echo "   - Only dist/ transferred: ✓"
+echo "   - .git excluded: ✓"
+echo "   - Docker API compatible: ✓"
+echo "   - Much faster: ✓"

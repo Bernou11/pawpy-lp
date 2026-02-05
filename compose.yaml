@@ -1,0 +1,57 @@
+services:
+  vue-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=production
+      - VIRTUAL_HOST=pawpy.fr,www.pawpy.fr
+      - LETSENCRYPT_HOST=pawpy.fr,www.pawpy.fr
+      - LETSENCRYPT_EMAIL=contact@pawpy.fr
+    networks:
+      - web
+    restart: unless-stopped
+
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    container_name: nginx-proxy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - nginx-certs:/etc/nginx/certs:ro
+      - nginx-vhost:/etc/nginx/vhost.d
+      - nginx-html:/usr/share/nginx/html
+    networks:
+      - web
+    restart: unless-stopped
+
+  letsencrypt:
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    container_name: letsencrypt-companion
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - nginx-certs:/etc/nginx/certs
+      - nginx-vhost:/etc/nginx/vhost.d
+      - nginx-html:/usr/share/nginx/html
+      - nginx-acme:/etc/acme.sh
+    environment:
+      - DEFAULT_EMAIL=contact@pawpy.fr
+      - NGINX_PROXY_CONTAINER=nginx-proxy
+    depends_on:
+      - nginx-proxy
+    networks:
+      - web
+    restart: unless-stopped
+
+volumes:
+  pg-data:
+  nginx-certs:
+  nginx-vhost:
+  nginx-html:
+  nginx-acme:
+
+networks:
+  web:
+    driver: bridge
