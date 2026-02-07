@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import dogWithHat from '@/assets/dog_hat.svg';
 
 // Form state
@@ -7,6 +7,23 @@ const email = ref('');
 const isSubmitting = ref(false);
 const showSuccess = ref(false);
 const showError = ref(false);
+const showConfirmed = ref(false);
+
+// Check if user was redirected after confirmation
+onMounted(() => {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('confirmed') === 'true') {
+    showConfirmed.value = true;
+
+    // Clean up URL
+    window.history.replaceState({}, '', window.location.pathname + window.location.hash);
+
+    // Hide message after 10 seconds
+    setTimeout(() => {
+      showConfirmed.value = false;
+    }, 10000);
+  }
+});
 
 // Handle form submission
 const handleSubmit = async (event) => {
@@ -17,30 +34,28 @@ const handleSubmit = async (event) => {
   showError.value = false;
 
   try {
-    const formData = new FormData();
-    formData.append('email', email.value);
-
-    const response = await fetch('https://stats.sender.net/forms/dwpwKJ/subscribe', {
+    const response = await fetch('/api/subscribe', {
       method: 'POST',
-      body: formData,
-      mode: 'no-cors' // Sender might require this
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email: email.value }),
     });
 
-    // Since we're using no-cors, we can't check response status
-    // So we assume success if no error was thrown
-    showSuccess.value = true;
-    email.value = ''; // Clear the input
+    if (response.ok) {
+      showSuccess.value = true;
+      email.value = '';
 
-    // Hide success message after 5 seconds
-    setTimeout(() => {
-      showSuccess.value = false;
-    }, 5000);
-
+      setTimeout(() => {
+        showSuccess.value = false;
+      }, 5000);
+    } else {
+      throw new Error('Subscription failed');
+    }
   } catch (error) {
     console.error('Subscription error:', error);
     showError.value = true;
 
-    // Hide error message after 5 seconds
     setTimeout(() => {
       showError.value = false;
     }, 5000);
@@ -72,6 +87,16 @@ const handleSubmit = async (event) => {
 
         <!-- Right: Input + Button + Dog -->
         <div class="flex flex-col items-center md:items-end gap-4 relative w-full md:w-auto z-20">
+
+          <!-- Confirmation Success Message (after redirect) -->
+          <transition name="fade">
+            <div v-if="showConfirmed" class="w-full md:w-80 md:mr-52 mb-4">
+              <div class="p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg text-sm text-center">
+                <div class="font-bold mb-1">🎉 Inscription confirmée !</div>
+                <div>Merci ! Vous recevrez bientôt nos actualités.</div>
+              </div>
+            </div>
+          </transition>
 
           <!-- Newsletter Form -->
           <form
@@ -108,14 +133,14 @@ const handleSubmit = async (event) => {
             <!-- Success Message -->
             <transition name="fade">
               <div v-if="showSuccess" class="mt-3 p-3 bg-green-100 border border-green-400 text-green-700 rounded-lg text-sm text-center">
-                ✓ Merci ! Vérifiez votre email pour confirmer votre inscription.
+                ✓ Votre demande a bien été prise en compte ! Vérifiez votre boîte mail pour valider votre inscription.
               </div>
             </transition>
 
             <!-- Error Message -->
             <transition name="fade">
               <div v-if="showError" class="mt-3 p-3 bg-red-100 border border-red-400 text-red-700 rounded-lg text-sm text-center">
-                ✗ Une erreur s'est produite. Veuillez réessayer.
+                ✗ Un problème est survenu, veuillez réessayer.
               </div>
             </transition>
           </form>

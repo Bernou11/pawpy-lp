@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomePage from '../views/Home.vue'
 import ConfirmationPage from '../views/Confirmation.vue'
+import UnsubscribePage from '../views/Unsubscribe.vue'
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -15,18 +16,31 @@ const router = createRouter({
             name: 'confirmation',
             component: ConfirmationPage,
             beforeEnter: (to, from, next) => {
-                if (import.meta.env.DEV) {
-                    console.log("dev mode")
-                    next()
-                    return
-                }
-                if (to.query.isConfirmed) {
+                if (to.query.email) {
                     next()
                 } else {
-                    console.log("no email or token, redirecting to home")
+                    console.log("No email provided, redirecting to home")
                     next('/')
                 }
             }
+        },
+        {
+            path: '/unsubscribe',
+            name: 'unsubscribe',
+            component: UnsubscribePage,
+            beforeEnter: (to, from, next) => {
+                if (to.query.email) {
+                    next()
+                } else {
+                    console.log("No email provided, redirecting to home")
+                    next('/')
+                }
+            }
+        },
+        {
+            path: `/${process.env.VUE_APP_BACK_OFFICE_CODE}`,
+            name: 'backoffice',
+            component: UnsubscribePage
         }
     ]
 })
