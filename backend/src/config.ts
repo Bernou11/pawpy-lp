@@ -26,6 +26,8 @@ function getEnvVarAsBoolean(key: string): boolean {
 }
 
 export const config: EnvConfig = {
+    PORT: getEnvVarAsNumber('PORT'),
+    NODE_ENV: getEnvVar('NODE_ENV'),
     SMTP_HOST: getEnvVar('SMTP_HOST'),
     SMTP_PORT: getEnvVarAsNumber('SMTP_PORT'),
     SMTP_SECURE: getEnvVarAsBoolean('SMTP_SECURE'),

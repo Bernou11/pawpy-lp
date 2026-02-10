@@ -23,6 +23,17 @@ export interface SenderNetSubscriber {
     groups: string[];
 }
 
+export interface SenderSubscriberResponse {
+    data: {
+        id: string;
+        email: string;
+        subscriber_tags: Array<{
+            id: string;
+            title: string;
+        }>;
+    };
+}
+
 export interface EmailConfig {
     from: string;
     to: string;
@@ -82,6 +93,8 @@ export interface CampaignResponse {
 }
 
 export interface EnvConfig {
+    NODE_ENV: string;
+    PORT: number;
     SMTP_HOST: string;
     SMTP_PORT: number;
     SMTP_SECURE: boolean;

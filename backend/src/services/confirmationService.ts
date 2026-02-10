@@ -25,7 +25,7 @@ class ConfirmationService {
             const confirmation = this.pendingConfirmations.get(token);
             if (confirmation && !confirmation.reminderSent) {
                 try {
-                    const confirmUrl = `${config.APP_URL}/api/confirmation?token=${token}`;
+                    const confirmUrl = `${config.FRONTEND_URL}/confirmation?email=${encodeURIComponent(email)}&token=${token}`;
                     await emailService.sendReminderEmail(email, confirmUrl);
 
                     // Mark reminder as sent
@@ -61,6 +61,19 @@ class ConfirmationService {
         }
 
         this.pendingConfirmations.delete(token);
+    }
+
+    removeByEmail(email: string): void {
+        for (const [token, confirmation] of this.pendingConfirmations.entries()) {
+            if (confirmation.email === email) {
+                if (confirmation.reminderTimeout) {
+                    clearTimeout(confirmation.reminderTimeout);
+                }
+                this.pendingConfirmations.delete(token);
+                console.log(`🗑️  Removed pending confirmation for ${email}`);
+                break;
+            }
+        }
     }
 
     isExpired(confirmation: PendingConfirmation): boolean {

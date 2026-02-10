@@ -18,7 +18,7 @@ const handleSubmit = async (event) => {
   showError.value = false;
 
   try {
-    const response = await fetch('http://localhost:3000/api/subscribe', {
+    const response = await fetch(`${import.meta.env.VITE_APP_URL}/subscribe`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

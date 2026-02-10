@@ -1,29 +1,32 @@
-import express, { Request, Response, NextFunction } from 'express';
+import express, { Request, Response } from 'express';
 import cors from 'cors';
-import { config } from './config.js';
+import { confirmationService } from './services/confirmationService.js';
 import { emailService } from './services/emailService.js';
 import { senderNetService } from './services/senderService.js';
-import { confirmationService } from './services/confirmationService.js';
-import { SubscribeRequest, SubscribeResponse, ErrorResponse, CampaignData } from './types.js';
+import { config } from './config.js';
 
 const app = express();
-const PORT = 3000;
 
-// Middleware
-app.use(cors());
+// CORS configuration
+const corsOptions = {
+    origin: config.NODE_ENV === 'production'
+        ? [config.FRONTEND_URL]
+        : ['http://localhost:5173', 'http://localhost:5174'],
+    credentials: true,
+    optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
-// Email validation
+// Validation helper
 function isValidEmail(email: string): boolean {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
 }
 
 // Subscribe endpoint
-app.post('/api/subscribe', async (
-    req: Request<{}, SubscribeResponse | ErrorResponse, SubscribeRequest>,
-    res: Response<SubscribeResponse | ErrorResponse>
-): Promise<void> => {
+app.post('/api/subscribe', async (req: Request, res: Response): Promise<void> => {
     try {
         const { email } = req.body;
 
@@ -45,7 +48,7 @@ app.post('/api/subscribe', async (
         // Store pending confirmation
         confirmationService.addPendingConfirmation(token, email);
 
-        // Send confirmation email
+        // Send confirmation email via nodemailer
         await emailService.sendConfirmationEmail(email, confirmUrl);
 
         // Add to Sender.net temporary group
@@ -58,103 +61,27 @@ app.post('/api/subscribe', async (
     }
 });
 
-app.post('/api/createCampaign', async (
-    req: Request<{}, SubscribeResponse | ErrorResponse, CampaignData>,
-    res: Response<SubscribeResponse | ErrorResponse>
-): Promise<void> => {
-    try {
-        const { title, subject, content, preheader } = req.body;
-
-        // Validate email
-        if (!title || !subject || !content) {
-            res.status(400).json({ error: "Le titre, l'objet et le contenu sont requis" });
-            return;
-        }
-
-        await senderNetService.createEmailCampaign(title, subject, content, preheader);
-
-        res.json({ success: true });
-    } catch (error) {
-        console.error('Un soucis est survenu lors de la création de la campagne:', error);
-        res.status(500).json({ error: 'Un soucis est survenu lors de la création de la campagne' });
-    }
-});
-
-app.delete('/api/unsubscribeTempGroup', async (
-    req: Request<{}, SubscribeResponse | ErrorResponse, SubscribeRequest>,
-    res: Response<SubscribeResponse | ErrorResponse>
-): Promise<void> => {
-    try {
-        const { email } = req.body;
-
-        // Validate email
-        if (!email) {
-            res.status(400).json({ error: 'Email is required' });
-            return;
-        }
-
-        if (!isValidEmail(email)) {
-            res.status(400).json({ error: 'Invalid email format' });
-            return;
-        }
-
-        await senderNetService.removeFromTempGroup(email);
-
-        res.json({ success: true });
-    } catch (error) {
-        console.error('Unsubscribe error:', error);
-        res.status(500).json({ error: 'Unsubscription failed' });
-    }
-});
-
-app.delete('/api/unsubscribeNewsletterGroup', async (
-    req: Request<{}, SubscribeResponse | ErrorResponse, SubscribeRequest>,
-    res: Response<SubscribeResponse | ErrorResponse>
-): Promise<void> => {
-    try {
-        const { email } = req.body;
-
-        // Validate email
-        if (!email) {
-            res.status(400).json({ error: 'Email is required' });
-            return;
-        }
-
-        if (!isValidEmail(email)) {
-            res.status(400).json({ error: 'Invalid email format' });
-            return;
-        }
-
-        await senderNetService.removeFromNewsletterGroup(email);
-
-        res.json({ success: true });
-    } catch (error) {
-        console.error('Unsubscribe error:', error);
-        res.status(500).json({ error: 'Unsubscription failed' });
-    }
-});
-
 // Confirm endpoint
 app.get('/api/confirm', async (req: Request, res: Response): Promise<void> => {
     try {
         const { token } = req.query;
 
         if (!token || typeof token !== 'string') {
-            res.status(400).send('Invalid confirmation link');
+            res.status(400).json({ error: 'Invalid confirmation link' });
             return;
         }
 
         const confirmation = confirmationService.getConfirmation(token);
 
         if (!confirmation) {
-            res.status(400).send('Invalid or expired confirmation link');
+            res.status(400).json({ error: 'Invalid or expired confirmation link' });
             return;
         }
 
         // Check if expired
         if (confirmationService.isExpired(confirmation)) {
             confirmationService.removeConfirmation(token);
-            res.status(400).send('Confirmation link has expired');
+            res.status(400).json({ error: 'Confirmation link has expired' });
             return;
         }
 
@@ -167,31 +94,160 @@ app.get('/api/confirm', async (req: Request, res: Response): Promise<void> => {
         res.json({ success: true, email: confirmation.email });
     } catch (error) {
         console.error('Confirm error:', error);
-        res.status(500).send('Confirmation failed');
+        res.status(500).json({ error: 'Confirmation failed' });
     }
 });
 
-// Health check endpoint
-app.get('/api/health', async (_req: Request, res: Response): Promise<void> => {
-    const smtpOk = await emailService.verifyConnection();
-    const pendingCount = confirmationService.getPendingCount();
+// Get subscriber endpoint
+app.get('/api/subscriber', async (req: Request, res: Response) => {
+    const { email } = req.query;
 
-    res.json({
-        status: 'ok',
-        smtp: smtpOk ? 'connected' : 'disconnected',
-        pendingConfirmations: pendingCount,
-    });
+    if (!email || typeof email !== 'string') {
+        res.status(400).json({ error: 'Email query parameter is required' });
+        return;
+    }
+
+    try {
+        const subscriber = await senderNetService.getSubscriberData(email);
+        if (subscriber) {
+            res.json(subscriber);
+        } else {
+            res.status(404).json({ error: 'Subscriber not found' });
+        }
+    } catch (error) {
+        console.error('Error fetching subscriber data:', error);
+        res.status(500).json({ error: 'Failed to fetch subscriber data' });
+    }
 });
 
-// Error handling middleware
-app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
-    console.error('Unhandled error:', err);
-    res.status(500).json({ error: 'Internal server error' });
+// Unsubscribe endpoint
+app.post('/api/unsubscribe', async (req: Request, res: Response): Promise<void> => {
+    try {
+        const { email } = req.query;
+
+        if (!email || typeof email !== 'string') {
+            res.status(400).json({ error: 'Email required' });
+            return;
+        }
+
+        if (!isValidEmail(email)) {
+            res.status(400).json({ error: 'Invalid email format' });
+            return;
+        }
+
+        try {
+            // Get subscriber to check which group they're in
+            const getResponse = await fetch(
+                `https://api.sender.net/v2/subscribers/${encodeURIComponent(email)}`,
+                {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${config.SENDER_API_KEY}`,
+                        'Content-Type': 'application/json',
+                    },
+                }
+            );
+
+            if (getResponse.ok) {
+                const subscriberData = await getResponse.json() as {
+                    data: {
+                        id: string;
+                        subscriber_tags: Array<{ id: string; title: string }>;
+                    }
+                };
+
+                const subscriberId = subscriberData.data.id;
+                const tags = subscriberData.data.subscriber_tags;
+
+                // Check which group they're in
+                const isInTempGroup = tags.some(tag => tag.id === config.SENDER_TEMP_GROUP_ID);
+                const isInNewsletterGroup = tags.some(tag => tag.id === config.SENDER_NEWSLETTER_GROUP_ID);
+
+                console.log(`Unsubscribing ${email} - Temp: ${isInTempGroup}, Newsletter: ${isInNewsletterGroup}`);
+
+                // Remove from the appropriate group(s)
+                if (isInTempGroup) {
+                    await fetch(
+                        `https://api.sender.net/v2/subscribers/groups/${config.SENDER_TEMP_GROUP_ID}`,
+                        {
+                            method: 'DELETE',
+                            headers: {
+                                'Authorization': `Bearer ${config.SENDER_API_KEY}`,
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                subscribers: [email]
+                            }),
+                        }
+                    );
+                    console.log(`✅ Removed from Temp group: ${email}`);
+                }
+
+                if (isInNewsletterGroup) {
+                    await fetch(
+                        `https://api.sender.net/v2/subscribers/groups/${config.SENDER_NEWSLETTER_GROUP_ID}`,
+                        {
+                            method: 'DELETE',
+                            headers: {
+                                'Authorization': `Bearer ${config.SENDER_API_KEY}`,
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                subscribers: [email]
+                            }),
+                        }
+                    );
+                    console.log(`✅ Removed from Newsletter group: ${email}`);
+                }
+
+                // Delete the subscriber entirely after removing from groups
+                await fetch('https://api.sender.net/v2/subscribers', {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${config.SENDER_API_KEY}`,
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        subscribers: [subscriberId]
+                    }),
+                });
+
+                console.log(`✅ Deleted subscriber: ${email}`);
+            }
+        } catch (err) {
+            console.log('Subscriber not found or already unsubscribed:', email);
+        }
+
+        // Also remove from pending confirmations if they exist
+        confirmationService.removeByEmail(email);
+
+        res.json({ success: true });
+    } catch (error) {
+        console.error('Unsubscribe error:', error);
+        res.status(500).json({ error: 'Failed to unsubscribe' });
+    }
 });
 
-// Start server
-app.listen(PORT, () => {
-    console.log(`✅ Backend running on port ${PORT}`);
-    console.log(`📧 SMTP: ${config.SMTP_HOST}:${config.SMTP_PORT}`);
-    console.log(`🌐 App URL: ${config.APP_URL}`);
+// Create campaign endpoint
+app.post('/api/createCampaign', async (req: Request, res: Response): Promise<void> => {
+    try {
+        const { title, subject, preheader, content } = req.body;
+
+        if (!title || !subject || !content) {
+            res.status(400).json({ error: 'Missing required fields' });
+            return;
+        }
+
+        await senderNetService.createEmailCampaign(title, subject, content, preheader);
+
+        res.json({ success: true });
+    } catch (error) {
+        console.error('Campaign creation error:', error);
+        res.status(500).json({ error: 'Failed to create campaign' });
+    }
+});
+
+app.listen(config.PORT, () => {
+    console.log(`Server running on port ${config.PORT}`);
+    console.log(`CORS enabled for: ${corsOptions.origin}`);
 });

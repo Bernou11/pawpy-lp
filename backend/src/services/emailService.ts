@@ -26,6 +26,7 @@ class EmailService {
         };
 
         await this.transporter.sendMail(emailConfig);
+        console.log(`✉️  Confirmation email sent to ${email}`);
     }
 
     async sendReminderEmail(email: string, confirmUrl: string): Promise<void> {
@@ -37,10 +38,10 @@ class EmailService {
         };
 
         await this.transporter.sendMail(emailConfig);
+        console.log(`✉️  Reminder email sent to ${email}`);
     }
 
     private getConfirmationEmailTemplate(confirmUrl: string, email: string): string {
-        const unsubscribeUrl = `${config.APP_URL}/unsubscribe?email=${encodeURIComponent(email)}`;
         return `
       <!DOCTYPE html>
       <html lang="fr">
@@ -96,13 +97,6 @@ class EmailService {
             font-weight: 600;
             margin: 20px 0;
           }
-          .footer {
-            padding: 30px;
-            text-align: center;
-            background-color: #f4f4f4;
-            font-size: 13px;
-            color: #999;
-          }
         </style>
       </head>
       <body>
@@ -117,13 +111,18 @@ class EmailService {
             <div style="text-align: center;">
               <a href="${confirmUrl}" class="button">Confirmer mon inscription</a>
             </div>
-            <p>Si vous n'avez pas demandé cette inscription, ignorez simplement cet email ou cliquez sur le lien si dessous : .</p>
-            <a href="${unsubscribeUrl}">Se désabonner</a>
-          </div>
-          <div class="footer">
-            <p><strong>Pawpy</strong></p>
-            <p>40 rue du Chemin Vert, 75011 Paris, France</p>
-            <p>© 2026 Pawpy. Tous droits réservés.</p>
+            <p>Si vous n'avez pas demandé cette inscription, ignorez simplement cet email.</p>
+            
+            <div style="margin-top: 40px; padding-top: 30px; border-top: 1px solid #e5e5e5; text-align: center; font-size: 13px; color: #999;">
+              <p style="margin: 5px 0;"><strong>Pawpy</strong></p>
+              <p style="margin: 5px 0;">40 rue du Chemin Vert, 75011 Paris, France</p>
+              <p style="margin: 15px 0 0;">© 2026 Pawpy. Tous droits réservés.</p>
+              <p style="margin: 10px 0 0;">
+                <a href="${config.FRONTEND_URL}/unsubscribe?email=${encodeURIComponent(email)}" style="color: #666; text-decoration: underline;">
+                  Se désinscrire
+                </a>
+              </p>
+            </div>
           </div>
         </div>
       </body>
@@ -132,7 +131,6 @@ class EmailService {
     }
 
     private getReminderEmailTemplate(confirmUrl: string, email: string): string {
-        const unsubscribeUrl = `${config.APP_URL}/unsubscribe?email=${encodeURIComponent(email)}`;
         return `
       <!DOCTYPE html>
       <html lang="fr">
@@ -145,24 +143,13 @@ class EmailService {
             padding: 0;
             font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
             background-color: #f4f4f4;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-          }
-          table {
-            border-collapse: collapse;
-          }
-          img {
-            border: 0;
-            height: auto;
-            line-height: 100%;
-            outline: none;
-            text-decoration: none;
-            display: block;
           }
           .email-container {
             max-width: 600px;
-            margin: 0 auto;
+            margin: 40px auto;
             background-color: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
           }
           .header {
             background-color: #1a1a1a;
@@ -184,7 +171,6 @@ class EmailService {
             font-weight: 600;
             color: #1a1a1a;
             margin: 0 0 20px 0;
-            line-height: 1.3;
           }
           .content p {
             font-size: 16px;
@@ -200,116 +186,44 @@ class EmailService {
             display: inline-block;
             padding: 16px 40px;
             background-color: #1a1a1a;
-            color: #ffffff !important;
+            color: #ffffff;
             text-decoration: none;
             border-radius: 50px;
             font-size: 16px;
             font-weight: 600;
-            transition: background-color 0.3s ease;
-          }
-          .confirm-button:hover {
-            background-color: #333333;
-          }
-          .alt-link {
-            padding: 20px 30px;
-            background-color: #f9f9f9;
-            border-top: 1px solid #e5e5e5;
-          }
-          .alt-link p {
-            font-size: 14px;
-            color: #777777;
-            margin: 0 0 10px 0;
-            line-height: 1.5;
-          }
-          .alt-link a {
-            color: #1a1a1a;
-            word-break: break-all;
-          }
-          .footer {
-            padding: 30px;
-            text-align: center;
-            background-color: #f4f4f4;
-          }
-          .footer p {
-            font-size: 13px;
-            color: #999999;
-            margin: 0 0 10px 0;
-            line-height: 1.5;
-          }
-          .footer a {
-            color: #1a1a1a;
-            text-decoration: underline;
-          }
-          .divider {
-            height: 1px;
-            background-color: #e5e5e5;
-            margin: 20px 0;
-          }
-          @media only screen and (max-width: 600px) {
-            .email-container {
-              width: 100% !important;
-            }
-            .content {
-              padding: 30px 20px !important;
-            }
-            .content h1 {
-              font-size: 22px !important;
-            }
-            .confirm-button {
-              padding: 14px 30px !important;
-              font-size: 15px !important;
-            }
-            .header {
-              padding: 30px 20px !important;
-            }
           }
         </style>
       </head>
       <body>
-        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
-          <tr>
-            <td align="center" style="padding: 20px 0;">
-              <table class="email-container" role="presentation" width="600" cellspacing="0" cellpadding="0" border="0">
-                <tr>
-                  <td class="header">
-                    <h1 class="logo">Pawpy</h1>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="content">
-                    <h1>Confirmez votre inscription à notre newsletter</h1>
-                    <p>Bonjour,</p>
-                    <p>Nous vous rappelons que vous avez souscrit à notre newsletter.</p>
-                    <p>Pour finaliser votre inscription et commencer à recevoir nos actualités, veuillez cliquer sur le bouton ci-dessous :</p>
-                    <div class="button-container">
-                      <a href="${confirmUrl}" class="confirm-button">
-                        Confirmer mon inscription
-                      </a>
-                    </div>
-                    <p>Si vous ne répondez pas d'ici 12h, votre inscription sera automatiquement annulée et vous devrez renvoyer votre mail pour vous inscrire.</p>
-                    <p>Une fois votre inscription confirmée, vous recevrez régulièrement nos meilleures actualités, conseils et offres exclusives.</p>
-                    <p>Si vous n'avez pas demandé cette inscription, ignorez simplement cet email ou cliquez sur le lien si dessous : .</p>
-                     <a href="${unsubscribeUrl}">Se désabonner</a>
-                    <div class="divider"></div>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="footer">
-                    <p><strong>Pawpy</strong></p>
-                    <p>40 rue du Chemin Vert, 75011 Paris, France</p>
-                    <p>
-                      <a href="${confirmUrl}" class="confirm-button">Se désabonner</a>
-                      <a href="https://pawpy.fr">Visiter notre site</a>
-                    </p>
-                    <p style="margin-top: 20px;">
-                      © 2026 Pawpy. Tous droits réservés.
-                    </p>
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
-        </table>
+        <div class="email-container">
+          <div class="header">
+            <h1 class="logo">Pawpy</h1>
+          </div>
+          <div class="content">
+            <h1>Rappel : Confirmez votre inscription</h1>
+            <p>Bonjour,</p>
+            <p>Nous vous rappelons que vous avez souscrit à notre newsletter.</p>
+            <p>Pour finaliser votre inscription, veuillez cliquer sur le bouton ci-dessous :</p>
+            <div class="button-container">
+              <a href="${confirmUrl}" class="confirm-button">
+                Confirmer mon inscription
+              </a>
+            </div>
+            <p>Si vous ne répondez pas d'ici 12h, votre inscription sera automatiquement annulée.</p>
+            <p>Si vous n'avez pas demandé cette inscription, ignorez simplement cet email.</p>
+            
+            <div style="margin-top: 40px; padding-top: 30px; border-top: 1px solid #e5e5e5; text-align: center; font-size: 13px; color: #999;">
+              <p style="margin: 5px 0;"><strong>Pawpy</strong></p>
+              <p style="margin: 5px 0;">40 rue du Chemin Vert, 75011 Paris, France</p>
+              <p style="margin: 15px 0 0;">© 2026 Pawpy. Tous droits réservés.</p>
+              <p style="margin: 10px 0 0;">
+                <a href="${config.FRONTEND_URL}/unsubscribe?email=${encodeURIComponent(email)}" style="color: #666; text-decoration: underline;">
+                  Se désinscrire
+                </a>
+              </p>
+            </div>
+          </div>
+        </div>
       </body>
       </html>
     `;
