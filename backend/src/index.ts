@@ -4,7 +4,7 @@ import { config } from './config.js';
 import { emailService } from './services/emailService.js';
 import { senderNetService } from './services/senderService.js';
 import { confirmationService } from './services/confirmationService.js';
-import { SubscribeRequest, SubscribeResponse, ErrorResponse } from './types.js';
+import { SubscribeRequest, SubscribeResponse, ErrorResponse, CampaignData } from './types.js';
 
 const app = express();
 const PORT = 3000;
@@ -40,7 +40,7 @@ app.post('/api/subscribe', async (
 
         // Generate confirmation token
         const token = confirmationService.generateToken();
-        const confirmUrl = `${config.APP_URL}/api/confirm?token=${token}`;
+        const confirmUrl = `${config.FRONTEND_URL}/confirmation?email=${encodeURIComponent(email)}&token=${token}`;
 
         // Store pending confirmation
         confirmationService.addPendingConfirmation(token, email);
@@ -55,6 +55,28 @@ app.post('/api/subscribe', async (
     } catch (error) {
         console.error('Subscribe error:', error);
         res.status(500).json({ error: 'Subscription failed' });
+    }
+});
+
+app.post('/api/createCampaign', async (
+    req: Request<{}, SubscribeResponse | ErrorResponse, CampaignData>,
+    res: Response<SubscribeResponse | ErrorResponse>
+): Promise<void> => {
+    try {
+        const { title, subject, content, preheader } = req.body;
+
+        // Validate email
+        if (!title || !subject || !content) {
+            res.status(400).json({ error: "Le titre, l'objet et le contenu sont requis" });
+            return;
+        }
+
+        await senderNetService.createEmailCampaign(title, subject, content, preheader);
+
+        res.json({ success: true });
+    } catch (error) {
+        console.error('Un soucis est survenu lors de la création de la campagne:', error);
+        res.status(500).json({ error: 'Un soucis est survenu lors de la création de la campagne' });
     }
 });
 
@@ -142,8 +164,7 @@ app.get('/api/confirm', async (req: Request, res: Response): Promise<void> => {
         // Remove from pending confirmations
         confirmationService.removeConfirmation(token);
 
-        // Redirect to success page
-        res.redirect(`${config.FRONTEND_URL}/?confirmed=true#soutien`);
+        res.json({ success: true, email: confirmation.email });
     } catch (error) {
         console.error('Confirm error:', error);
         res.status(500).send('Confirmation failed');

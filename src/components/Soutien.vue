@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref } from 'vue';
 import dogWithHat from '@/assets/dog_hat.svg';
 
 // Form state
@@ -8,22 +8,6 @@ const isSubmitting = ref(false);
 const showSuccess = ref(false);
 const showError = ref(false);
 const showConfirmed = ref(false);
-
-// Check if user was redirected after confirmation
-onMounted(() => {
-  const params = new URLSearchParams(window.location.search);
-  if (params.get('confirmed') === 'true') {
-    showConfirmed.value = true;
-
-    // Clean up URL
-    window.history.replaceState({}, '', window.location.pathname + window.location.hash);
-
-    // Hide message after 10 seconds
-    setTimeout(() => {
-      showConfirmed.value = false;
-    }, 10000);
-  }
-});
 
 // Handle form submission
 const handleSubmit = async (event) => {
@@ -34,7 +18,7 @@ const handleSubmit = async (event) => {
   showError.value = false;
 
   try {
-    const response = await fetch('/api/subscribe', {
+    const response = await fetch('http://localhost:3000/api/subscribe', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -87,16 +71,6 @@ const handleSubmit = async (event) => {
 
         <!-- Right: Input + Button + Dog -->
         <div class="flex flex-col items-center md:items-end gap-4 relative w-full md:w-auto z-20">
-
-          <!-- Confirmation Success Message (after redirect) -->
-          <transition name="fade">
-            <div v-if="showConfirmed" class="w-full md:w-80 md:mr-52 mb-4">
-              <div class="p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg text-sm text-center">
-                <div class="font-bold mb-1">🎉 Inscription confirmée !</div>
-                <div>Merci ! Vous recevrez bientôt nos actualités.</div>
-              </div>
-            </div>
-          </transition>
 
           <!-- Newsletter Form -->
           <form

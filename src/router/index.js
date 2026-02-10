@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomePage from '../views/Home.vue'
 import ConfirmationPage from '../views/Confirmation.vue'
 import UnsubscribePage from '../views/Unsubscribe.vue'
+import BackOfficePage from '../views/Backoffice.vue'
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -38,9 +39,9 @@ const router = createRouter({
             }
         },
         {
-            path: `/${process.env.VUE_APP_BACK_OFFICE_CODE}`,
+            path: `/${import.meta.env.VITE_BACK_OFFICE_CODE}`,
             name: 'backoffice',
-            component: UnsubscribePage
+            component: BackOfficePage
         }
     ]
 })

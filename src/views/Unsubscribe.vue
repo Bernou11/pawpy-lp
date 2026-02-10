@@ -10,7 +10,3 @@ import sadDog from "@/assets/sad_dog.png";
     <h2 class="text-lg md:text-lg text-monochrome-900 mb-4 text-center">Vous pouvez maintenant fermer cette page</h2>
   </div>
 </template>
-
-<style scoped>
-
-</style>

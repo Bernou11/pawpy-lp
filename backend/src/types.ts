@@ -30,6 +30,57 @@ export interface EmailConfig {
     html: string;
 }
 
+export interface CampaignData {
+    title: string;
+    subject: string;
+    preheader: string;
+    content: string;
+}
+
+interface CampaignHtml {
+    id: string;
+    thumbnail_url: string;
+    has_preview: boolean;
+    html_content: string;
+    html_body: string | null;
+}
+
+interface CampaignResponseData {
+    id: string;
+    subject: string;
+    reply_to: string;
+    language: string;
+    recipient_count: number | null;
+    from: string;
+    schedule_time: string | null;
+    last_action: string;
+    sent_time: string | null;
+    status: string;
+    created: string;
+    modified: string;
+    title: string;
+    domain_id: string;
+    preheader: string;
+    auto_followup_active: boolean;
+    auto_followup_subject: string;
+    auto_followup_delay: number;
+    editor: string;
+    opens: number;
+    clicks: number;
+    bounces_count: number;
+    send_to_all: boolean | null;
+    html: CampaignHtml;
+    sent_count: number;
+    campaign_groups: string[];
+    segments: string[];
+}
+
+export interface CampaignResponse {
+    success: boolean;
+    message: string;
+    data: CampaignResponseData;
+}
+
 export interface EnvConfig {
     SMTP_HOST: string;
     SMTP_PORT: number;
