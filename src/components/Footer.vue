@@ -8,25 +8,25 @@ import lechieng6 from '@/assets/lechiengnumero6.svg';
 </script>
 
 <template>
-  <div class="w-full">
+  <div class="w-full mt-[128px]">
     <div class="hidden md:block relative mt-8 h-[320px] md:h-[400px] w-full overflow-hidden">
       <!-- Image 1 - Far Left (5% margin) -->
-      <img :src="lechieng" alt="Lechieng" class="absolute top-4 left-[5%] w-[25%] h-auto shadow-lg rotate-[-6deg] z-10" />
+      <img :src="lechieng" alt="Lechieng" class="les-chiengs absolute top-20 left-[5%] w-[25%] h-auto rotate-[-6deg] z-10" />
 
       <!-- Image 2 -->
-      <img :src="lechieng2" alt="Lechieng" class="absolute top-12 left-[19%] w-[25%] h-auto shadow-lg rotate-[4deg] z-20" />
+      <img :src="lechieng2" alt="Lechieng" class="les-chiengs absolute top-20 left-[19%] w-[25%] h-auto rotate-[4deg] z-20" />
 
       <!-- Image 3 -->
-      <img :src="lechieng3" alt="Lechieng" class="absolute top-8 left-[33%] w-[25%] h-auto shadow-lg rotate-[-3deg] z-30" />
+      <img :src="lechieng3" alt="Lechieng" class="les-chiengs absolute top-20 left-[33%] w-[25%] h-auto rotate-[-3deg] z-30" />
 
       <!-- Image 4 -->
-      <img :src="lechieng4" alt="Lechieng" class="absolute top-14 left-[47%] w-[25%] h-auto shadow-lg rotate-[5deg] z-40" />
+      <img :src="lechieng4" alt="Lechieng" class="les-chiengs absolute top-20 left-[47%] w-[25%] h-auto rotate-[5deg] z-40" />
 
       <!-- Image 5 -->
-      <img :src="lechieng5" alt="Lechieng" class="absolute top-6 left-[61%] w-[25%] h-auto shadow-lg rotate-[-4deg] z-50" />
+      <img :src="lechieng5" alt="Lechieng" class="les-chiengs absolute top-20 left-[61%] w-[25%] h-auto rotate-[-4deg] z-50" />
 
       <!-- Image 6 - Far Right -->
-      <img :src="lechieng6" alt="Lechieng" class="absolute top-14 left-[75%] w-[25%] h-auto shadow-lg rotate-[3deg] z-50" />
+      <img :src="lechieng6" alt="Lechieng" class="les-chiengs absolute top-20 left-[75%] w-[25%] h-auto rotate-[3deg] z-50" />
     </div>
 
     <div class="max-w-7xl mx-auto px-6 pt-12 pb-8">
@@ -94,3 +94,14 @@ import lechieng6 from '@/assets/lechiengnumero6.svg';
     </div>
   </div>
 </template>
+
+<style scoped>
+.les-chiengs {
+  transform: translateY(70px);
+  transition: transform 0.5s ease;
+}
+.les-chiengs:hover {
+  transform: translateY(-70px);
+  transition: transform 0.5s ease;
+}
+</style>

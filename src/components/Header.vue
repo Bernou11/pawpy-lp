@@ -12,7 +12,7 @@ const isMobileMenuOpen = ref(false)
 </script>
 
 <template>
-  <nav class="fixed top-0 left-0 w-full z-50 bg-white shadow-sm">
+  <nav class="fixed top-0 left-0 w-full z-50">
     <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
       <div class="relative flex h-16 items-center justify-between">
         <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
@@ -38,25 +38,27 @@ const isMobileMenuOpen = ref(false)
           </div>
           <div class="hidden sm:ml-auto sm:block">
             <div class="flex space-x-4">
-              <a href="#presentation" class="rounded-md px-3 py-2 text-sm font-medium text-monochrome-800 hover:bg-monochrome-400 hover:text-monochrome-800">Présentation</a>
+              <a href="#avant-apres" class="rounded-md px-3 py-2 text-sm font-medium text-monochrome-800 hover:bg-monochrome-400 hover:text-monochrome-800">Avant/Après</a>
               <a href="#avant-apres" class="rounded-md px-3 py-2 text-sm font-medium text-monochrome-800 hover:bg-monochrome-400 hover:text-monochrome-800">Avant/Après</a>
               <a href="#application" class="rounded-md px-3 py-2 text-sm font-medium text-monochrome-800 hover:bg-monochrome-400 hover:text-monochrome-800">Notre application</a>
-              <a href="#avis" class="rounded-md px-3 py-2 text-sm font-medium text-monochrome-800 hover:bg-monochrome-400 hover:text-monochrome-800">Avis</a>
-              <a href="#soutien" class="rounded-md px-3 py-2 text-sm font-medium text-monochrome-800 hover:bg-monochrome-400 hover:text-monochrome-800">Nous soutenir</a>
               <a href="#faq" class="rounded-md px-3 py-2 text-sm font-medium text-monochrome-800 hover:bg-monochrome-400 hover:text-monochrome-800">FAQ</a>
             </div>
           </div>
         </div>
         <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-          <button class="hidden sm:block relative flex rounded-full justify-center items-center gap-2.5 px-4 py-2 bg-monochrome-900 text-monochrome-100 hover:text-monochrome-800 hover:bg-monochrome-400 text-sm font-medium">
-            Suivez le mouvement !
-          </button>
+          <a href="#soutien">
+            <button class="hidden sm:block relative flex rounded-full justify-center items-center gap-2.5 px-4 py-2 bg-monochrome-900 text-monochrome-100 hover:text-monochrome-800 hover:bg-monochrome-400 text-sm font-medium">
+              Suivez le mouvement !
+            </button>
+          </a>
           <!-- Mobile CTA (Icon only or smaller) -->
-          <button class="sm:hidden block p-2 bg-monochrome-900 text-monochrome-100 rounded-full">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
-            </svg>
-          </button>
+          <a href="#soutien">
+            <button class="sm:hidden block p-2 bg-monochrome-900 text-monochrome-100 rounded-full">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+              </svg>
+            </button>
+          </a>
         </div>
       </div>
     </div>
@@ -75,9 +77,8 @@ const isMobileMenuOpen = ref(false)
         <a href="#avant-apres" class="block rounded-md px-3 py-2 text-base font-medium text-monochrome-800 hover:bg-monochrome-100" @click="isMobileMenuOpen = false">Avant/Après</a>
         <a href="#application" class="block rounded-md px-3 py-2 text-base font-medium text-monochrome-800 hover:bg-monochrome-100" @click="isMobileMenuOpen = false">Notre application</a>
         <a href="#avis" class="block rounded-md px-3 py-2 text-base font-medium text-monochrome-800 hover:bg-monochrome-100" @click="isMobileMenuOpen = false">Avis</a>
-        <a href="#soutien" class="block rounded-md px-3 py-2 text-base font-medium text-monochrome-800 hover:bg-monochrome-100" @click="isMobileMenuOpen = false">Nous soutenir</a>
         <a href="#faq" class="block rounded-md px-3 py-2 text-base font-medium text-monochrome-800 hover:bg-monochrome-100" @click="isMobileMenuOpen = false">FAQ</a>
-        <a href="#" class="block rounded-md bg-monochrome-900 px-3 py-2 text-base font-medium text-white text-center mt-4">
+        <a href="#soutien" class="block rounded-md px-3 py-2 text-base font-medium text-monochrome-800 hover:bg-monochrome-100" @click="isMobileMenuOpen = false">
           Suivez le mouvement !
         </a>
       </div>
