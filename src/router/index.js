@@ -39,7 +39,7 @@ const router = createRouter({
             }
         },
         {
-            path: `/${import.meta.env.VITE_BACK_OFFICE_CODE}`,
+            path: `/admin/${import.meta.env.VITE_BACK_OFFICE_CODE}`,
             name: 'backoffice',
             component: BackOfficePage
         }
