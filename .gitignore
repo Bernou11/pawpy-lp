@@ -37,7 +37,7 @@ __screenshots__/
 
 
 # Environment files
-.env
+.env.production.local
 .env.local
 .env.production
 backend/.env
