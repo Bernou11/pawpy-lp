@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomePage from '../views/Home.vue'
 import ConfirmationPage from '../views/Confirmation.vue'
-import BackOfficePage from '../views/Backoffice.vue'
 import UnsubscribePage from "@/views/Unsubscribe.vue";
 
 const router = createRouter({
@@ -37,11 +36,6 @@ const router = createRouter({
                     next('/')
                 }
             }
-        },
-        {
-            path: `/admin/${import.meta.env.VITE_BACK_OFFICE_CODE}`,
-            name: 'backoffice',
-            component: BackOfficePage
         }
     ]
 })

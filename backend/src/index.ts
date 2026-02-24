@@ -228,25 +228,6 @@ app.post('/api/unsubscribe', async (req: Request, res: Response): Promise<void> 
     }
 });
 
-// Create campaign endpoint
-app.post('/api/createCampaign', async (req: Request, res: Response): Promise<void> => {
-    try {
-        const { title, subject, preheader, content } = req.body;
-
-        if (!title || !subject || !content) {
-            res.status(400).json({ error: 'Missing required fields' });
-            return;
-        }
-
-        await senderNetService.createEmailCampaign(title, subject, content, preheader);
-
-        res.json({ success: true });
-    } catch (error) {
-        console.error('Campaign creation error:', error);
-        res.status(500).json({ error: 'Failed to create campaign' });
-    }
-});
-
 app.listen(config.PORT, () => {
     console.log(`Server running on port ${config.PORT}`);
     console.log(`CORS enabled for: ${corsOptions.origin}`);
