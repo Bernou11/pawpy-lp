@@ -5,6 +5,52 @@ import lechieng3 from '@/assets/lechiengnumero3.svg';
 import lechieng4 from '@/assets/lechiengnumero4.svg';
 import lechieng5 from '@/assets/lechiengnumero5.svg';
 import lechieng6 from '@/assets/lechiengnumero6.svg';
+import {ref} from "vue";
+
+const email = ref('');
+const isSubmitting = ref(false);
+const showSuccess = ref(false);
+const showError = ref(false);
+const showConfirmed = ref(false);
+
+// Handle form submission
+const handleSubmit = async (event) => {
+  event.preventDefault();
+
+  isSubmitting.value = true;
+  showSuccess.value = false;
+  showError.value = false;
+
+  try {
+    const response = await fetch(`${import.meta.env.VITE_APP_URL}/subscribe`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email: email.value }),
+    });
+
+    if (response.ok) {
+      showSuccess.value = true;
+      email.value = '';
+
+      setTimeout(() => {
+        showSuccess.value = false;
+      }, 5000);
+    } else {
+      throw new Error('Subscription failed');
+    }
+  } catch (error) {
+    console.error('Subscription error:', error);
+    showError.value = true;
+
+    setTimeout(() => {
+      showError.value = false;
+    }, 5000);
+  } finally {
+    isSubmitting.value = false;
+  }
+};
 </script>
 
 <template>
@@ -69,16 +115,51 @@ import lechieng6 from '@/assets/lechiengnumero6.svg';
         <div class="flex flex-col gap-4">
           <h3 class="text-monochrome-900 font-bold mb-2">Newsletter</h3>
           <div class="relative">
-            <input 
-              type="email" 
-              placeholder="Votre email" 
-              class="w-full px-4 py-2 rounded-full border border-monochrome-500 focus:outline-none focus:border-monochrome-500"
-            />
-            <button class="absolute right-2 top-1/2 -translate-y-1/2 p-1 bg-monochrome-900 rounded-full">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-              </svg>
-            </button>
+            <form
+                @submit="handleSubmit"
+                class="w-full md:w-80 md:mr-52"
+            >
+              <div class="relative w-full">
+                <input
+                    v-model="email"
+                    type="email"
+                    name="email"
+                    placeholder="exemple@gmail.com"
+                    required
+                    :disabled="isSubmitting"
+                    class="px-6 py-3 rounded-full bg-monochrome-200 w-full text-center border border-monochrome-500 pr-12 focus:outline-none focus:ring-2 focus:ring-monochrome-500 placeholder-gray-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                />
+                <button
+                    type="submit"
+                    :disabled="isSubmitting"
+                    class="absolute top-1/2 -translate-y-1/2 right-2 p-2 bg-monochrome-900 text-monochrome-100 rounded-full hover:bg-monochrome-400 hover:text-monochrome-900 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <!-- Loading spinner -->
+                  <svg v-if="isSubmitting" class="animate-spin w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  <!-- Arrow icon -->
+                  <svg v-else xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
+                  </svg>
+                </button>
+              </div>
+
+              <!-- Success Message -->
+              <transition name="fade">
+                <div v-if="showSuccess" class="mt-3 p-3 bg-green-100 border border-green-400 text-green-700 rounded-lg text-sm text-center">
+                  ✓ Votre demande a bien été prise en compte ! Vérifiez votre boîte mail pour valider votre inscription.
+                </div>
+              </transition>
+
+              <!-- Error Message -->
+              <transition name="fade">
+                <div v-if="showError" class="mt-3 p-3 bg-red-100 border border-red-400 text-red-700 rounded-lg text-sm text-center">
+                  ✗ Un problème est survenu, veuillez réessayer.
+                </div>
+              </transition>
+            </form>
           </div>
         </div>
       </div>
