@@ -45,7 +45,7 @@ services:
     restart: unless-stopped
 
   letsencrypt:
-    image: jrcs/letsencrypt-nginx-proxy-companion
+    image: nginxproxy/acme-companion
     container_name: letsencrypt-companion
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
