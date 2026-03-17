@@ -24,7 +24,6 @@ rsync -avz --progress \
     --exclude '.DS_Store' \
     dist \
     backend \
-    nginx.conf \
     Dockerfile.production \
     compose.prod.yml \
     $VPS:~/landing-page/
