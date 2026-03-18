@@ -38,7 +38,7 @@ const isMobileMenuOpen = ref(false)
           </div>
           <div class="hidden sm:ml-auto sm:block">
             <div class="flex space-x-4">
-              <a href="#avant-apres" class="rounded-md px-3 py-2 text-sm font-medium text-monochrome-800 hover:bg-monochrome-400 hover:text-monochrome-800">Avant/Après</a>
+              <a href="#presentation" class="rounded-md px-3 py-2 text-sm font-medium text-monochrome-800 hover:bg-monochrome-400 hover:text-monochrome-800">Présentation</a>
               <a href="#avant-apres" class="rounded-md px-3 py-2 text-sm font-medium text-monochrome-800 hover:bg-monochrome-400 hover:text-monochrome-800">Avant/Après</a>
               <a href="#application" class="rounded-md px-3 py-2 text-sm font-medium text-monochrome-800 hover:bg-monochrome-400 hover:text-monochrome-800">Notre application</a>
               <a href="#faq" class="rounded-md px-3 py-2 text-sm font-medium text-monochrome-800 hover:bg-monochrome-400 hover:text-monochrome-800">FAQ</a>
