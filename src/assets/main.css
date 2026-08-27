@@ -1,9 +1,55 @@
+/*
+ * Polices du Figma Pawpy :
+ *   Plus Jakarta Sans → UI, navigation, boutons  (font/familly/Secondary)
+ *   Sora             → texte courant             (Typeramp Body / Subbody)
+ *   Playfair Display → repli des titres tant que Coconat n'est pas fourni
+ * Les @import doivent rester en tête de fichier.
+ */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&family=Sora:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400..900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/*
+ * Coconat — police des titres (font/familly/Primary).
+ * Sous licence commerciale : déposer les .woff2 dans src/assets/fonts/ puis
+ * décommenter ces blocs. En leur absence, `font-display` bascule sur
+ * Playfair Display et la page reste correcte.
+ *
+ * @font-face {
+ *   font-family: 'Coconat';
+ *   src: url('./fonts/Coconat-Regular.woff2') format('woff2');
+ *   font-weight: 400;
+ *   font-display: swap;
+ * }
+ * @font-face {
+ *   font-family: 'Coconat';
+ *   src: url('./fonts/Coconat-Demi.woff2') format('woff2');
+ *   font-weight: 600;
+ *   font-display: swap;
+ * }
+ */
+
 @layer base {
     body {
-        @apply px-8 md:px-8;
+        @apply bg-surface text-ink font-body antialiased;
+    }
+
+    h1, h2, h3 {
+        @apply font-display font-semibold;
+    }
+}
+
+@layer components {
+    /* Gabarit du Figma : contenu de 1300px centré dans une page de 1500px. */
+    .shell {
+        @apply mx-auto w-full max-w-shell px-6 lg:px-0;
+    }
+
+    /* Intitulé de section en gris clair (« Confiance », « Balade »…). */
+    .eyebrow {
+        @apply font-sans text-label text-ink-40;
     }
 }

@@ -1,51 +1,37 @@
 <script setup>
-import Header from '../components/Header.vue'
-import Presentation from "../components/Presentation.vue";
-import AvantApres from "@/components/AvantApres.vue";
-import Discover from "@/components/Discover.vue";
-import Avis from "@/components/Avis.vue";
-import Soutien from "@/components/Soutien.vue";
-import Faq from "@/components/Faq.vue";
-import Footer from "@/components/Footer.vue";
+import TheHeader from '@/components/TheHeader.vue'
+import HeroSection from '@/components/HeroSection.vue'
+import QuoteSection from '@/components/QuoteSection.vue'
+import StatsSection from '@/components/StatsSection.vue'
+import FeatureSection from '@/components/FeatureSection.vue'
+import NewsletterCta from '@/components/NewsletterCta.vue'
+import FaqSection from '@/components/FaqSection.vue'
+import TheFooter from '@/components/TheFooter.vue'
+import { features } from '@/data/features'
 </script>
 
 <template>
-  <header msg="Header">
-    <div class="wrapper">
-      <Header msg="Header" />
-    </div>
-  </header>
+  <TheHeader />
 
   <main>
-    <div class="content pt-16">
-      <Presentation msg="Presentation" />
-      <AvantApres msg="AvantApres" />
-      <Discover msg="Discover" />
-      <Avis msg="Avis" />
-      <Soutien msg="Soutien" />
-      <Faq msg="Faq" />
-    </div>
+    <HeroSection />
+    <QuoteSection />
+    <StatsSection />
+
+    <FeatureSection
+      v-for="feature in features"
+      :key="feature.id"
+      :eyebrow="feature.eyebrow"
+      :title="feature.title"
+      :image="feature.image"
+      :image-alt="feature.imageAlt"
+      :items="feature.items"
+      :reversed="feature.reversed"
+    />
+
+    <NewsletterCta />
+    <FaqSection />
   </main>
 
-  <footer>
-    <div class="wrapper">
-      <Footer msg="Footer" />
-    </div>
-  </footer>
+  <TheFooter />
 </template>
-
-<style scoped>
-  html, body {
-    height: 100vh;
-    overflow: hidden;
-  }
-
-  html, body {
-    min-height: 100vh;
-    overflow-y: auto;
-  }
-
-  #app {
-    min-height: 100vh;
-  }
-</style>
