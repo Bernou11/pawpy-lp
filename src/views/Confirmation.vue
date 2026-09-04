@@ -1,5 +1,4 @@
 <script setup>
-import dogWithHat from '@/assets/dog_hat.svg';
 import {onMounted, ref} from "vue";
 
 const params = new URLSearchParams(window.location.search);
@@ -40,8 +39,7 @@ onMounted(async () => {
     <div v-else-if="error" class="text-red-600">
       {{ error }}
     </div>
-    <div v-else>
-      <img :src="dogWithHat" alt="Chien avec chapeau" class="w-80 h-80 mx-auto mb-6" />
+    <div v-else class="text-center">
       <h1 class="text-lg md:text-3xl text-monochrome-900 mb-4 text-center">
         Merci pour votre soutien ! Vous recevrez toutes nos informations sur votre mail : {{email}} !
       </h1>
