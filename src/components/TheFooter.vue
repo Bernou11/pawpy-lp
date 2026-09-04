@@ -5,7 +5,7 @@ const links = [
   { label: 'Demander une démo', href: 'mailto:contact@pawpy.fr' },
   { label: 'Newsletter', href: '#newsletter' },
   { label: 'Formulaire', href: 'https://clementsainthilaire.notion.site/2c3299f1bb4d804db2acdeaaddd997c1?pvs=105' },
-  { label: 'Devenir bêta testeur', href: '#newsletter' },
+  { label: 'Devenir bêta testeur', href: 'mailto:contact@pawpy.fr?subject=demande%20de%20beta%20test' },
 ]
 
 const isExternal = (href) => href.startsWith('http')

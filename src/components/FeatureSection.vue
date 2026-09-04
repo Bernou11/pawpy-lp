@@ -40,7 +40,7 @@ defineProps({
         </ul>
 
         <div class="mt-[64px] flex items-center gap-[24px]">
-          <BaseButton href="#newsletter">Rejoindre la beta</BaseButton>
+          <BaseButton href="mailto:contact@pawpy.fr?subject=demande%20de%20beta%20test">Rejoindre la beta</BaseButton>
           <BaseButton variant="outline" href="#newsletter">Suivre le projet</BaseButton>
         </div>
       </div>

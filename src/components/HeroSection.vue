@@ -57,7 +57,7 @@ const badges = [
 
       <!-- inline-grid + colonnes 1fr : les deux boutons prennent la largeur du plus large. -->
       <div v-reveal="300" class="mt-[76px] inline-grid grid-cols-2 items-center gap-[24px]">
-        <BaseButton size="lg" href="#newsletter">Rejoindre la beta</BaseButton>
+        <BaseButton size="lg" href="mailto:contact@pawpy.fr?subject=demande%20de%20beta%20test">Rejoindre la beta</BaseButton>
         <BaseButton
           size="lg"
           variant="outline"

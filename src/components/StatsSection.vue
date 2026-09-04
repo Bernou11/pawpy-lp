@@ -58,7 +58,7 @@ const stats = [
       </dl>
 
       <div v-reveal="200" class="mt-[88px] flex items-center gap-[24px]">
-        <BaseButton size="lg" href="#newsletter">Devenir bêta testeur</BaseButton>
+        <BaseButton size="lg" href="mailto:contact@pawpy.fr?subject=demande%20de%20beta%20test">Devenir bêta testeur</BaseButton>
         <BaseButton size="lg" variant="outline" href="#newsletter">
           S’abonner à la newsletter
         </BaseButton>
