@@ -1,8 +1,9 @@
 /*
  * Polices du Figma Pawpy :
+ *   Coconat          → titres                    (font/familly/Primary)
  *   Plus Jakarta Sans → UI, navigation, boutons  (font/familly/Secondary)
  *   Sora             → texte courant             (Typeramp Body / Subbody)
- *   Playfair Display → repli des titres tant que Coconat n'est pas fourni
+ *   Playfair Display → repli des titres si Coconat ne charge pas
  * Les @import doivent rester en tête de fichier.
  */
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&family=Sora:wght@400;500&display=swap');
@@ -14,31 +15,45 @@
 
 /*
  * Coconat — police des titres (font/familly/Primary).
- * Sous licence commerciale : déposer les .woff2 dans src/assets/fonts/ puis
- * décommenter ces blocs. En leur absence, `font-display` bascule sur
- * Playfair Display et la page reste correcte.
- *
- * @font-face {
- *   font-family: 'Coconat';
- *   src: url('./fonts/Coconat-Regular.woff2') format('woff2');
- *   font-weight: 400;
- *   font-display: swap;
- * }
- * @font-face {
- *   font-family: 'Coconat';
- *   src: url('./fonts/Coconat-Demi.woff2') format('woff2');
- *   font-weight: 600;
- *   font-display: swap;
- * }
+ * Seul le Regular est fourni : `font-synthesis` est coupé plus bas pour que le
+ * navigateur ne fabrique pas un faux gras (qui déforme et « étire » les lettres).
  */
+@font-face {
+    font-family: 'Coconat';
+    src: url('./font/Coconat-Regular.otf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
 
 @layer base {
     body {
         @apply bg-surface text-ink font-body antialiased;
     }
 
+    /*
+     * Navigation par ancres : défilement doux, et décalage de 102 px (hauteur
+     * du header collant) pour que le haut de la section visée ne passe pas
+     * dessous. Respecte « réduire les animations ».
+     */
+    html {
+        scroll-behavior: smooth;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        html {
+            scroll-behavior: auto;
+        }
+    }
+
+    :target {
+        scroll-margin-top: 102px;
+    }
+
     h1, h2, h3 {
-        @apply font-display font-semibold;
+        /* Coconat Regular. Pas de faux gras : le fichier Demi n'est pas fourni. */
+        @apply font-display font-normal;
+        font-synthesis: none;
     }
 }
 
@@ -51,5 +66,355 @@
     /* Intitulé de section en gris clair (« Confiance », « Balade »…). */
     .eyebrow {
         @apply font-sans text-label text-ink-40;
+    }
+
+    /*
+     * Surlignage rose des mots-clés de titre : brand/accent-500 (#FFCCFB) à
+     * 25 %, dans un rectangle légèrement incliné (2,3°) comme dans la maquette.
+     *
+     * Le rectangle vit sur ::before plutôt que sur `background` : c'est ce qui
+     * permet de l'incliner sans faire tourner le texte, et de le déplier de la
+     * gauche vers la droite (variante `reveal-highlight`). `z-index: -1` le
+     * passe derrière le texte ; sans animation il est déjà à sa taille finale.
+     */
+    .highlight {
+        position: relative;
+        display: inline-block;
+    }
+
+    .highlight::before {
+        content: '';
+        position: absolute;
+        /* Léger débord latéral : l'inclinaison ne doit pas raboter les lettres. */
+        inset: 0 -0.1em;
+        z-index: -1;
+        background-color: theme('colors.accent / 25%');
+        transform: rotate(-2.3deg);
+        transform-origin: left center;
+    }
+
+    /*
+     * Ombre portée du mockup (Figma : cinq couches empilées de #A6A6A6).
+     * `drop-shadow` plutôt que `box-shadow` : le PNG est détouré, l'ombre doit
+     * suivre la silhouette du téléphone et non son cadre rectangulaire.
+     * La cinquième couche de la maquette (opacité 0) n'est pas reprise.
+     */
+    .phone-shadow {
+        filter:
+            drop-shadow(8px 12px 26px rgba(166, 166, 166, 0.1))
+            drop-shadow(30px 48px 48px rgba(166, 166, 166, 0.09))
+            drop-shadow(80px 108px 65px rgba(166, 166, 166, 0.05))
+            drop-shadow(100px 193px 77px rgba(166, 166, 166, 0.01));
+    }
+}
+
+/*
+ * Apparitions (directive v-reveal, voir src/directives/reveal.js).
+ * `.reveal` est l'état caché posé au montage, `.reveal-visible` l'état final ;
+ * la variante `reveal-*` choisit le point de départ. Le retard éventuel est
+ * appliqué en ligne par la directive, qui retire aussi toutes ces classes une
+ * fois l'apparition jouée (l'élément retrouve alors ses propres transitions).
+ *
+ * Ces règles sont volontairement hors @layer : elles doivent primer sur les
+ * utilitaires `transition-colors` / `transition-opacity` déjà posés sur
+ * certains liens et boutons, sinon l'apparition ne s'anime pas.
+ */
+.reveal {
+    opacity: 0;
+    transition:
+        opacity 700ms cubic-bezier(0.22, 0.61, 0.36, 1),
+        transform 700ms cubic-bezier(0.22, 0.61, 0.36, 1);
+    will-change: opacity, transform;
+}
+
+/*
+ * `--reveal-shift` règle la longueur du glissement horizontal, 32px par
+ * défaut. Le hero la pousse à plusieurs centaines de pixels : le chien et les
+ * badges y démarrent cachés derrière le mockup et en sortent en glissant.
+ */
+.reveal-up    { transform: translate3d(0, 28px, 0); }
+.reveal-left  { transform: translate3d(calc(-1 * var(--reveal-shift, 32px)), 0, 0); }
+.reveal-right { transform: translate3d(var(--reveal-shift, 32px), 0, 0); }
+.reveal-scale { transform: scale(0.96); }
+.reveal-fade  { transform: none; }
+
+/*
+ * Variante « surlignage » (mots roses de StatsSection) : le texte reste lisible
+ * dès le départ, seul le rectangle rose se déplie de la gauche vers la droite.
+ * L'animation porte donc sur ::before, pas sur l'élément lui-même — d'où le
+ * retard relayé par `--reveal-delay` (les propriétés personnalisées, elles,
+ * descendent jusqu'aux pseudo-éléments).
+ */
+.reveal-highlight {
+    opacity: 1;
+    transform: none;
+    transition: none;
+}
+
+.reveal-highlight::before {
+    transform: rotate(-2.3deg) scaleX(0);
+    transition: transform 700ms cubic-bezier(0.22, 0.61, 0.36, 1);
+    transition-delay: var(--reveal-delay, 0ms);
+    will-change: transform;
+}
+
+.reveal.reveal-visible {
+    opacity: 1;
+    transform: none;
+}
+
+.reveal-highlight.reveal-visible::before {
+    transform: rotate(-2.3deg) scaleX(1);
+}
+
+/* Sécurité : si les classes sont posées avant que la préférence change. */
+@media (prefers-reduced-motion: reduce) {
+    .reveal,
+    .reveal.reveal-visible {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+
+    .reveal-highlight::before {
+        transform: rotate(-2.3deg);
+        transition: none;
+    }
+}
+
+/*
+ * Bandeau « Communautée certifiée » : les trois avatars montent de 6px l'un
+ * après l'autre, puis reviennent en place. Le cycle complet dure 5s, dont
+ * ~0,8s de mouvement ; le décalage entre les avatars vient de la classe
+ * `avatar-bob-1/2/3` posée dans HeroSection.vue.
+ */
+@keyframes avatar-bob {
+    0%, 16%, 100% { transform: translate3d(0, 0, 0); }
+    8%            { transform: translate3d(0, -6px, 0); }
+}
+
+.avatar-bob {
+    animation: avatar-bob 5s cubic-bezier(0.22, 0.61, 0.36, 1) infinite;
+}
+
+.avatar-bob-2 { animation-delay: 250ms; }
+.avatar-bob-3 { animation-delay: 500ms; }
+
+@media (prefers-reduced-motion: reduce) {
+    .avatar-bob { animation: none; }
+}
+
+/*
+ * Pastille « Live » (StatsSection) : le point noir bat doucement et laisse
+ * partir un anneau qui s'efface — cycle de 2,4s, l'essentiel du mouvement
+ * tenant dans la première seconde. L'anneau vit sur ::after pour que le
+ * `scale` du point ne le déforme pas.
+ */
+@keyframes live-dot-pulse {
+    0%, 40%, 100% { transform: scale(1); }
+    12%           { transform: scale(1.25); }
+}
+
+@keyframes live-dot-ripple {
+    0%        { box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.25); }
+    70%, 100% { box-shadow: 0 0 0 6px rgba(0, 0, 0, 0); }
+}
+
+.live-dot {
+    position: relative;
+    animation: live-dot-pulse 2.4s cubic-bezier(0.22, 0.61, 0.36, 1) infinite;
+}
+
+.live-dot::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    animation: live-dot-ripple 2.4s ease-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .live-dot,
+    .live-dot::after { animation: none; }
+}
+
+/* Sursaut discret d'un chiffre clé au moment où il s'incrémente. */
+@keyframes stat-tick {
+    0%   { transform: translate3d(0, 0, 0); }
+    35%  { transform: translate3d(0, -8px, 0); }
+    100% { transform: translate3d(0, 0, 0); }
+}
+
+.stat-tick {
+    animation: stat-tick 900ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .stat-tick { animation: none; }
+}
+
+/*
+ * Carrousel de témoignages (QuoteSection). Les quatre témoignages occupent la
+ * même cellule de grille : seul l'actif est opaque, les autres restent en
+ * place mais transparents et hors du flux d'interaction — la hauteur du bloc
+ * ne bouge donc jamais.
+ *
+ * Les deux mouvements s'enchaînent au lieu de se croiser : le témoignage
+ * sortant s'efface d'abord (280 ms), puis l'entrant paraît (280 ms, après un
+ * retard équivalent). Sans ce retard les deux textes se superposeraient à
+ * mi-fondu et les lettres sembleraient s'imbriquer. Le basculement complet
+ * dure ~580 ms, très en deçà des 5s d'un témoignage à l'écran.
+ */
+.quote-slide {
+    opacity: 0;
+    transform: translate3d(0, 10px, 0);
+    visibility: hidden;
+    pointer-events: none;
+    transition:
+        opacity 280ms cubic-bezier(0.22, 0.61, 0.36, 1),
+        transform 280ms cubic-bezier(0.22, 0.61, 0.36, 1),
+        visibility 0s linear 280ms;
+}
+
+.quote-slide-active {
+    opacity: 1;
+    transform: none;
+    visibility: visible;
+    pointer-events: auto;
+    /* Le témoignage entrant attend que le sortant ait fini de s'effacer. */
+    transition-delay: 300ms, 300ms, 0s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .quote-slide {
+        transform: none;
+        transition: none;
+    }
+
+    .quote-slide-active {
+        transition-delay: 0s;
+    }
+}
+
+/*
+ * Illustration du footer « dessinée » (voir src/components/FooterDog.vue).
+ * `.dog-draw` pose l'état vierge — contour non tracé, remplissage absent —,
+ * `.dog-draw-run` lance les deux animations. Chaque chemin lit son propre
+ * retard dans `--dog-delay`, posé en ligne par le composant : les traits
+ * s'enchaînent alors dans l'ordre d'empilement du SVG, sur 1s au total.
+ *
+ * `pathLength="1"` (posé lui aussi par le composant) normalise la longueur de
+ * chaque chemin, ce qui rend un unique `stroke-dasharray: 1` valable pour les
+ * 246 tracés, quelles que soient leurs tailles réelles.
+ */
+.dog-draw path {
+    stroke-width: 0.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    fill-opacity: 0;
+}
+
+.dog-draw-run path {
+    animation:
+        dog-trace 260ms linear var(--dog-delay, 0ms) forwards,
+        dog-ink 200ms ease-out calc(var(--dog-delay, 0ms) + 260ms) forwards;
+}
+
+@keyframes dog-trace {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+/*
+ * Le contour disparaît en même temps que le remplissage apparaît : sans quoi
+ * il épaissirait durablement chaque forme de 0,8px.
+ */
+@keyframes dog-ink {
+    from {
+        fill-opacity: 0;
+        stroke-opacity: 1;
+    }
+
+    to {
+        fill-opacity: 1;
+        stroke-opacity: 0;
+    }
+}
+
+/*
+ * Curseur « patte » (voir src/components/TheCursor.vue).
+ *
+ * `has-paw-cursor` est posée sur <html> par le composant, et seulement quand
+ * un vrai pointeur est présent : sans JS, ou au doigt, le curseur système
+ * reste en place. Le sélecteur universel est nécessaire — `cursor` s'hérite,
+ * mais la feuille de style du navigateur repose un `cursor: auto` sur les
+ * liens, les boutons et les champs, qui l'emporte sur l'héritage.
+ */
+.has-paw-cursor,
+.has-paw-cursor * {
+    cursor: none;
+}
+
+/* Champs de saisie : la barre de texte native est plus utile que la patte. */
+.has-paw-cursor input:not([type='button']):not([type='submit']):not([type='checkbox']):not([type='radio']),
+.has-paw-cursor textarea,
+.has-paw-cursor [contenteditable='true'] {
+    cursor: text;
+}
+
+/*
+ * Le calque suit le pointeur : `transform` est réécrit à chaque frame par le
+ * composant, donc sans transition. Seule l'opacité s'anime (entrée/sortie de
+ * la fenêtre).
+ */
+.paw-cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 140ms linear;
+    will-change: transform;
+}
+
+.paw-cursor-on {
+    opacity: 1;
+}
+
+/*
+ * Le grossissement porte sur l'image, pas sur le conteneur : il peut ainsi
+ * s'animer sans retarder le déplacement. `margin` et `transform-origin` sont
+ * posés en ligne par le composant (le « hotspot » de la patte), ce qui garde
+ * le point actif immobile pendant le doublement.
+ */
+.paw-cursor-glyph {
+    display: block;
+    /* La largeur est posée en ligne par le composant (constante WIDTH). */
+    height: auto;
+    transition: transform 180ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/* Survol d'une zone cliquable : la patte grossit de moitié. */
+.paw-cursor-active .paw-cursor-glyph {
+    transform: scale(1.5);
+}
+
+/*
+ * Bouton enfoncé : la patte se rétracte. Règle placée après celle du survol,
+ * à spécificité égale, pour primer pendant le clic (on clique presque toujours
+ * sur une zone cliquable, donc sur une patte déjà agrandie).
+ */
+.paw-cursor-press .paw-cursor-glyph {
+    transform: scale(0.75);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .paw-cursor,
+    .paw-cursor-glyph {
+        transition: none;
     }
 }

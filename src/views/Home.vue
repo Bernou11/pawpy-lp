@@ -18,16 +18,20 @@ import { features } from '@/data/features'
     <QuoteSection />
     <StatsSection />
 
-    <FeatureSection
-      v-for="feature in features"
-      :key="feature.id"
-      :eyebrow="feature.eyebrow"
-      :title="feature.title"
-      :image="feature.image"
-      :image-alt="feature.imageAlt"
-      :items="feature.items"
-      :reversed="feature.reversed"
-    />
+    <!-- Cible de l'ancre « Features » : les FeatureSection sont générées en
+         boucle, l'id vit donc sur le conteneur plutôt que dans le composant. -->
+    <div id="features">
+      <FeatureSection
+        v-for="feature in features"
+        :key="feature.id"
+        :eyebrow="feature.eyebrow"
+        :title="feature.title"
+        :image="feature.image"
+        :image-alt="feature.imageAlt"
+        :items="feature.items"
+        :reversed="feature.reversed"
+      />
+    </div>
 
     <NewsletterCta />
     <FaqSection />

@@ -1,6 +1,5 @@
 <script setup>
 import { onMounted, ref } from 'vue';
-import sadDog from '@/assets/sad_dog.png';
 
 const params = new URLSearchParams(window.location.search);
 const email = params.get('email') || '';
@@ -48,7 +47,6 @@ onMounted(async () => {
     </div>
 
     <div v-else-if="success" class="text-center">
-      <img :src="sadDog" alt="Chien triste" class="w-80 h-80 mx-auto mb-6" />
       <h1 class="text-lg md:text-3xl text-monochrome-900 mb-4">
         Nous sommes désolés de vous voir partir &#128546 Nous espérons que vous reviendrez bientôt !
       </h1>

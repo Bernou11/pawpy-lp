@@ -3,23 +3,23 @@ import featureBalade from '@/assets/figma/feature-balade.png'
 import featurePaiement from '@/assets/figma/feature-paiement.png'
 import featureStats from '@/assets/figma/feature-stats.png'
 
-import iconCertification from '@/assets/figma/icons/certification.png'
-import iconFormation from '@/assets/figma/icons/formation.png'
-import iconMessage from '@/assets/figma/icons/message.png'
-import iconInterlocuteur from '@/assets/figma/icons/interlocuteur.png'
-import iconPaiementCard from '@/assets/figma/icons/paiement-card.png'
-import iconGpsPin from '@/assets/figma/icons/gps-pin.png'
-import iconClock from '@/assets/figma/icons/clock.png'
-import iconBell from '@/assets/figma/icons/bell.png'
-import iconMap from '@/assets/figma/icons/map.png'
-import iconShield from '@/assets/figma/icons/shield.png'
-import iconCalendar from '@/assets/figma/icons/calendar.png'
-import iconRefresh from '@/assets/figma/icons/refresh.png'
-import iconTransfer from '@/assets/figma/icons/transfer.png'
-import iconStopwatch from '@/assets/figma/icons/stopwatch.png'
-import iconChart from '@/assets/figma/icons/chart.png'
-import iconReport from '@/assets/figma/icons/report.png'
-import iconPaw from '@/assets/figma/icons/paw.png'
+// Icônes fournies avec la maquette (24×24, trait noir à 55 % comme `text-ink-60`).
+import iconCertification from '@/assets/figma/icons/certification.svg'
+import iconFormation from '@/assets/figma/icons/formation.svg'
+import iconMessage from '@/assets/figma/icons/message.svg'
+import iconInterlocuteur from '@/assets/figma/icons/interlocuteur.svg'
+import iconPaiement from '@/assets/figma/icons/paiement.svg'
+import iconGps from '@/assets/figma/icons/gps.svg'
+import iconHeure from '@/assets/figma/icons/heure.svg'
+import iconNotification from '@/assets/figma/icons/notification.svg'
+import iconMap from '@/assets/figma/icons/map.svg'
+import iconPaiementSecurise from '@/assets/figma/icons/paiement-securise.svg'
+import iconApp from '@/assets/figma/icons/app.svg'
+import iconHistorique from '@/assets/figma/icons/historique.svg'
+import iconTransfere from '@/assets/figma/icons/transfere.svg'
+import iconStats from '@/assets/figma/icons/stats.svg'
+import iconRapports from '@/assets/figma/icons/rapports.svg'
+import iconCanin from '@/assets/figma/icons/canin.svg'
 
 /**
  * Les quatre sections « texte + image » du Figma. Elles partagent la même
@@ -39,7 +39,7 @@ export const features = [
       { icon: iconFormation, label: 'Formation incluses' },
       { icon: iconMessage, label: 'Messagerie privée encrypté' },
       { icon: iconInterlocuteur, label: 'Choix complet de votre interlocuteur' },
-      { icon: iconPaiementCard, label: 'Paiement intégrés & sécurisés' },
+      { icon: iconPaiement, label: 'Paiement intégrés & sécurisés' },
     ],
   },
   {
@@ -50,24 +50,24 @@ export const features = [
     imageAlt: 'Notification Pawpy et tracé GPS d’une promenade en cours',
     reversed: true,
     items: [
-      { icon: iconGpsPin, label: 'Tracking GPS en temps réel' },
-      { icon: iconClock, label: 'Promenade d’une heure minimum' },
-      { icon: iconBell, label: 'Notifications automatiques' },
+      { icon: iconGps, label: 'Tracking GPS en temps réel' },
+      { icon: iconHeure, label: 'Promenade d’une heure minimum' },
+      { icon: iconNotification, label: 'Notifications automatiques' },
       { icon: iconMap, label: 'Cartographie des zones de balade' },
     ],
   },
   {
     id: 'paiement',
     eyebrow: 'Paiement',
-    title: 'Votre tranquillité commence avant même la balade.',
+    title: 'Votre tranquillité commence\navant même la balade.',
     image: featurePaiement,
     imageAlt: 'Écran Pawpy de paiement et de réservation d’une promenade',
     reversed: false,
     items: [
-      { icon: iconShield, label: 'Paiement 100% sécurisé' },
-      { icon: iconCalendar, label: 'Réservez directement dans Pawpy' },
-      { icon: iconRefresh, label: 'Historique de vos transactions' },
-      { icon: iconTransfer, label: 'Transfère d’argent' },
+      { icon: iconPaiementSecurise, label: 'Paiement 100% sécurisé' },
+      { icon: iconApp, label: 'Réservez directement dans Pawpy' },
+      { icon: iconHistorique, label: 'Historique de vos transactions' },
+      { icon: iconTransfere, label: 'Transfère d’argent' },
     ],
   },
   {
@@ -78,10 +78,10 @@ export const features = [
     imageAlt: 'Écran Pawpy de statistiques et de suivi des promenades',
     reversed: true,
     items: [
-      { icon: iconStopwatch, label: 'Tracé GPS & chronomètre' },
-      { icon: iconChart, label: 'Statistiques de promenades' },
-      { icon: iconReport, label: 'Rapports mensuels des performances' },
-      { icon: iconPaw, label: 'Accompagnement canin complet' },
+      { icon: iconHeure, label: 'Tracé GPS & chronomètre' },
+      { icon: iconStats, label: 'Statistiques de promenades' },
+      { icon: iconRapports, label: 'Rapports mensuels des performances' },
+      { icon: iconCanin, label: 'Accompagnement canin complet' },
     ],
   },
 ]

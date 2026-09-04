@@ -1,8 +1,8 @@
 <script setup>
 import { ref } from 'vue'
 import faqImage from '@/assets/figma/faq-image.png'
-import iconPlus from '@/assets/figma/icons/plus.png'
-import iconMinus from '@/assets/figma/icons/minus.png'
+import iconPlus from '@/assets/figma/icons/plus.svg'
+import iconMinus from '@/assets/figma/icons/minus.svg'
 
 /*
  * Questions reprises littéralement du Figma. Seule la première réponse est
@@ -49,22 +49,27 @@ const toggle = (index) => {
   <!-- La FAQ est le seul bloc à utiliser une colonne de 1000px, pas le gabarit de 1300px. -->
   <section id="faq" class="mx-auto w-full max-w-[1000px] px-6 pt-[286px] lg:px-0">
     <div class="flex items-start justify-between gap-[32px]">
-      <h2 class="max-w-[500px] text-title">
+      <h2 v-reveal class="max-w-[500px] text-title">
         Vous avez une question ?<br />
         Nous avons la réponse !
       </h2>
-      <a href="#newsletter" class="mt-[49px] font-sans text-label text-ink-40 hover:text-ink">
+      <a v-reveal="120" href="#newsletter" class="mt-[49px] font-sans text-label text-ink-40 hover:text-ink">
         Poser une question
       </a>
     </div>
 
     <div class="mt-[64px] flex items-start gap-[32px]">
-      <img :src="faqImage" alt="" class="h-[443px] w-[400px] shrink-0 object-cover" />
+      <img
+        v-reveal="{ from: 'scale' }"
+        :src="faqImage"
+        alt=""
+        class="h-[443px] w-[400px] shrink-0 object-cover" />
 
       <dl class="flex-1">
         <div
           v-for="(item, index) in items"
           :key="item.question"
+          v-reveal="120 + index * 90"
           :class="index > 0 ? 'border-t border-dashed border-stroke' : ''"
         >
           <dt>

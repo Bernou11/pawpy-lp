@@ -53,7 +53,7 @@ export default {
         base: ['16px', { lineHeight: '22px' }],                                // Body
         lead: ['18px', { lineHeight: '1.2', letterSpacing: '-0.01em' }],       // font/size/m
         title: ['34px', { lineHeight: '1.2', letterSpacing: '-0.02em' }],      // font/size/2xl
-        display: ['54px', { lineHeight: '1.2', letterSpacing: '-0.02em' }],    // font/size/4xl
+        display: ['54px', { lineHeight: '1.2', letterSpacing: '-0.02em' }],                           // font/size/4xl
         numeral: ['94px', { lineHeight: '1.2', letterSpacing: '-0.02em' }],    // chiffres des stats
       },
 

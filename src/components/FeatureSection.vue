@@ -21,10 +21,10 @@ defineProps({
   <section class="shell pt-[320px]">
     <div class="flex items-center gap-[64px]">
       <!-- Colonne texte -->
-      <div class="flex-1" :class="reversed ? 'order-2' : 'order-1'">
+      <div v-reveal class="flex-1" :class="reversed ? 'order-2' : 'order-1'">
         <p class="eyebrow">{{ eyebrow }}</p>
 
-        <h2 class="mt-[16px] text-title">{{ title }}</h2>
+        <h2 class="mt-[16px] whitespace-pre-line text-title">{{ title }}</h2>
 
         <ul class="mt-[16px] flex flex-col gap-[16px]">
           <li
@@ -46,7 +46,11 @@ defineProps({
       </div>
 
       <!-- Colonne image (618×618 dans la maquette) -->
-      <div class="flex-1" :class="reversed ? 'order-1' : 'order-2'">
+      <div
+        v-reveal="{ delay: 150, from: 'scale' }"
+        class="flex-1"
+        :class="reversed ? 'order-1' : 'order-2'"
+      >
         <img
           :src="image"
           :alt="imageAlt"
